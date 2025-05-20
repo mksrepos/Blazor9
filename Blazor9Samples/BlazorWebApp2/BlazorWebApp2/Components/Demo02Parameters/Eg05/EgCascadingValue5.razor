@@ -1,0 +1,24 @@
+﻿@page "/demo02/CascadingValue5"
+@rendermode InteractiveServer
+
+<h3>Example of CascadingValue with StateChanged</h3>
+
+<p>
+    Demo of State Change
+</p>
+<p class="fst-italic">
+    Note the rendermode is set at the page-level.
+</p>
+
+<CascadingValue Value="Counter">
+    <EgCascadingValueComponent5></EgCascadingValueComponent5>
+    <p>
+        Counter (at Page Level): @Counter
+    </p>
+</CascadingValue>
+
+@code {
+
+    int Counter { get; set; } = 0;
+
+}

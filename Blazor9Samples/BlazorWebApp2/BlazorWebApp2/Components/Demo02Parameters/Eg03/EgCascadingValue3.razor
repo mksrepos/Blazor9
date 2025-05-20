@@ -1,0 +1,23 @@
+﻿@page "/demo02/CascadingValue3"
+
+<h3>Example of CascadingValue</h3>
+
+<p>
+    What if there are more than one parameters of the same type?
+</p>
+<p>
+    The framework will then match with the closest ancestor to the component, requesting the paramter.
+</p>
+
+<CascadingValue Value="CompanyName">
+    <CascadingValue Value="Author">
+        <EgCascadingValueComponent3></EgCascadingValueComponent3>
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+
+    string CompanyName = "Microsoft India";
+    string Author = "Manoj Kumar Sharma";
+
+}

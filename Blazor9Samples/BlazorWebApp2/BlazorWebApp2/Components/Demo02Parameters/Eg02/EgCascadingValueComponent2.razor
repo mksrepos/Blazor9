@@ -1,0 +1,18 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>Another Example of the CascadingValueComponent</h4>
+
+    <p>The cascading value is received by DataType:</p>
+    <p>String value: <b>@Something</b></p>
+    <p>Integer value: <b>@SomethingElse</b></p>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    string? Something { get; set; }
+
+    [CascadingParameter]
+    int? SomethingElse { get; set; }
+
+}

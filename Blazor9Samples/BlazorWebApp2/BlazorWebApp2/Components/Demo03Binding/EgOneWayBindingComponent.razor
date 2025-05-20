@@ -1,0 +1,22 @@
+﻿
+<div class="alert alert-secondary p-3 m-5">
+
+    <p>The child component increments the Counter, received as a parameter.</p>
+
+    <button class="btn btn-primary" @onclick="OnClick">Click Me</button>
+
+    <p>Counter: @Counter</p>
+
+</div>
+
+
+@code {
+
+    [Parameter]
+    public int Counter { get; set; } = 0;
+
+    private void OnClick()
+    {
+        Counter++;
+    }
+}

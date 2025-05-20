@@ -1,0 +1,19 @@
+﻿<div class="d-flex border">
+    <div class="p-2 flex-grow-1">
+        <h5>@Title</h5>
+    </div>
+    <div class="p-2 d-flex align-items-center">
+        @ActionButtonsChildContent
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ActionButtonsChildContent { get; set; }
+
+}

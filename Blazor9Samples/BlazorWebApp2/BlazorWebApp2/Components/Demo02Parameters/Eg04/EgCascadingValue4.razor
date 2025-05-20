@@ -1,0 +1,24 @@
+﻿@page "/demo02/CascadingValue4"
+
+<h3>Example of CascadingValue</h3>
+
+<p>
+    The most reliable way is to identify CascadingValue parameter is by Name. 
+</p>
+<p>
+    Don't forget to specify the name of the CascadingValue parameter in the Component.
+</p>
+
+<CascadingValue Value="CompanyName" Name="CompanyName">
+    <CascadingValue Value="Author" Name="Author">
+        <EgCascadingValueComponent4></EgCascadingValueComponent4>
+        <EgCascadingValueComponent4Child CssClass="alert-success"></EgCascadingValueComponent4Child>
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+
+    string CompanyName = "Microsoft India";
+    string Author = "Manoj Kumar Sharma";
+
+}

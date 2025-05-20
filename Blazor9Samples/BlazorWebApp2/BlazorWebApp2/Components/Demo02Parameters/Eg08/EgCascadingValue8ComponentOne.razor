@@ -1,0 +1,25 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>Component 1.</h4>
+
+    <p>Counter at the Component Level:<b>@ancestorComponent?.Counter</b></p>
+
+    <p>
+        <button class="btn btn-primary" @onclick="IncrementCounter">
+            Click Me
+        </button>
+    </p>
+</div>
+
+@code 
+{
+    // NOTE: The CascadingParameter is the object of the Ancestor Component.
+    [CascadingParameter]
+    EgCascadingValue8? ancestorComponent { get; set; }
+
+    private void IncrementCounter()
+    {
+        ancestorComponent?.CounterChangeHandler();
+    }
+
+}

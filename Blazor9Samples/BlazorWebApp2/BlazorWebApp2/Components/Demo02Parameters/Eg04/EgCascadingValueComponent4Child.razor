@@ -1,0 +1,14 @@
+﻿
+<div class="alert @CssClass p-5 m-5">
+    <p>CascadingParameter (Name = "Author"): <b>@AuthorParam</b></p>
+</div>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public string? CssClass { get; set;}
+
+    [CascadingParameter(Name = "Author")]
+    string? AuthorParam { get; set; }
+
+}

@@ -1,0 +1,27 @@
+﻿@page "/demo01/eg-section-content"
+
+@layout BlazorWebApp2.Components.Demo01Components.Layouts.DemoLayout
+
+<h3>Example of Component with Section Content placed by the component</h3>
+
+<p>This page also demonstrates Nested Layout</p>
+
+@*
+    NOTE: 
+    - Run this page, with the component element commented/uncommented to see the difference 
+      in how the section component is rendered in the layout page.
+    - Remember, the SectionContent is rendered only in the layout page.
+    - Event binding is not supported in SectionContent.
+*@
+ <ComponentWithSectionContent />
+
+<Microsoft.AspNetCore.Components.Sections.SectionContent SectionName="MySectionContent">
+    <div class="alert alert-info m-2">
+        This is the content of the section (ONLY rendered in the Layout page!) originating from the page.
+    </div>
+</Microsoft.AspNetCore.Components.Sections.SectionContent>
+
+
+@code {
+
+}

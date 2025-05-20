@@ -1,0 +1,21 @@
+﻿@page "/demo03/eg-oneway-binding"
+
+@rendermode InteractiveServer
+ 
+<h3>Example of One-Way Binding</h3>
+
+<p>Here, the changes to the parameter variable of the child component are NOT reflected in the ancestor component.</p>
+
+<p>NOTE: Rendermode is set at the page.</p>
+
+<p>
+    Counter in the Page hosting the component: 
+    <b>@counterInPage</b>
+</p>
+
+<EgOneWayBindingComponent Counter="@counterInPage" />
+
+@code
+{
+    private int counterInPage = 0;
+}

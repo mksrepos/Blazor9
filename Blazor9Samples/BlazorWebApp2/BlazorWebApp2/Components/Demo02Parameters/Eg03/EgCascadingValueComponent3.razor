@@ -1,0 +1,15 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <p>The cascading value is received by DataType and mapped by the closest ancestor:</p>
+    <p>CascadingParameter 1: <b>@Something</b></p>
+    <p>CascadingParameter 2: <b>@SomethingElse</b></p>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    string? Something { get; set; }
+
+    [CascadingParameter]
+    string? SomethingElse { get; set; }
+}

@@ -1,0 +1,25 @@
+﻿@page "/demo02/CascadingValue6"
+@rendermode InteractiveServer
+
+<h3>Example of CascadingValue with StateChanged</h3>
+
+<p>
+    Both components receive the same CascadingValue parameter.
+</p>
+<p class="fst-italic">
+    Note the rendermode set at the page-level.
+</p>
+
+<CascadingValue Value="Counter">
+    <EgCascadingValue6ComponentOne></EgCascadingValue6ComponentOne>
+    <EgCascadingValue6ComponentTwo></EgCascadingValue6ComponentTwo>
+    <p>
+        Counter (at Page Level): @Counter
+    </p>
+</CascadingValue>
+
+@code {
+
+    int Counter { get; set; } = 0;
+
+}

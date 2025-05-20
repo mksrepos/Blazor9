@@ -1,0 +1,16 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>Example of the CascadingValueComponent</h4>
+
+    <p>The cascading value is received by DataType: <b>@Something</b></p>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Author { get; set; } = string.Empty;
+
+    [CascadingParameter]
+    string? Something { get; set; }
+
+}

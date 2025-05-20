@@ -1,0 +1,25 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>Component 1.</h4>
+
+    <p>Counter at the Component Level:<b>@Something</b></p>
+
+    <p>
+        <button class="btn btn-primary" @onclick="IncrementCounter">
+            Click Me
+        </button>
+    </p>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    int? Something { get; set; }
+
+
+    private void IncrementCounter()
+    {
+        Something++;
+        StateHasChanged();
+    }
+}

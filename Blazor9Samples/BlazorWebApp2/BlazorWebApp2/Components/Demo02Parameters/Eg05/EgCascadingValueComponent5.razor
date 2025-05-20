@@ -1,0 +1,26 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>The Cascading Parameter's Value can change in the Component.</h4>
+
+    <p>Counter at Component Level:<b>@Something</b></p>
+
+    <p>
+        <button class="btn btn-primary" @onclick="IncrementCounter">
+            Click Me
+        </button>
+    </p>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    int? Something { get; set; }
+
+
+    private void IncrementCounter()
+    {
+        Something++;
+        // StateHasChanged();
+    }
+
+}

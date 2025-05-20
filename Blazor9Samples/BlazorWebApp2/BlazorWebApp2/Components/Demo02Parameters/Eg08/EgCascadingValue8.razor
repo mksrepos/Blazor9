@@ -1,0 +1,49 @@
+﻿@page "/demo02/CascadingValue8"
+@rendermode InteractiveServer
+
+<h3>Example of Components with Complex Type Cascading Parameters</h3>
+
+<p>
+    Here the CascadingValue parameter is updated by using a Complex Type.
+    There is no Event needed.
+</p>
+<p>
+    This demo shows that a <b><i>descendant</i></b> component can invoke members of its <b><i>ancestor </i></b>tree, if needed.
+</p>
+<p class="fst-italic">
+    Note the rendermode set at the page-level.
+</p>
+
+<div class="row">
+    <div class="col">
+        @* NOTE: the current component is offered as the Parameter *@
+        <CascadingValue Value="this">
+            <EgCascadingValue8ComponentOne />
+            <EgCascadingValue8ComponentTwo />
+        </CascadingValue>
+    </div>
+    <div class="col border-start border-3 ps-2">
+        <p>
+            Counter (at Page Level): @Counter
+        </p>
+    </div>
+</div>
+
+
+
+@code {
+
+    // The GET Accessor of the Property is PUBLIC so that it can be accessed by the Child Component
+    // And the SET Accessor of the Property is PRIVATE so that only the current component would be able to change it.
+    public int Counter { get; private set; } = 0;
+
+    // The Method is declared PUBLIC so that it can be invoked by the Child Component
+    public void CounterChangeHandler()
+    {
+        Counter++;
+
+        StateHasChanged();    
+    }
+
+}
+

@@ -1,0 +1,69 @@
+﻿@page "/demo02/CascadingValue7"
+@rendermode InteractiveServer
+
+<h3>Example of Components with Events</h3>
+
+<p>
+    Both components receive the same CascadingValue parameter, that gets updated as the component 
+    updating the value raises an event, to which the page component (ancestor) is subscribed to.
+</p>
+<p class="fw-bold fst-italic">
+    NOTE: The event subscription is only bubbled one-level up!
+</p>
+<p class="fst-italic">
+    Note the rendermode set at the page-level.
+</p>
+
+<div class="row">
+    <div class="col">
+        <CascadingValue Value="Counter">
+            <EgCascadingValue7ComponentOne OnCounterChange="CounterChangeHandler"
+                                           NotifyMessage="NotifyMessageHandler"></EgCascadingValue7ComponentOne>
+            <EgCascadingValue7ComponentTwo></EgCascadingValue7ComponentTwo>
+        </CascadingValue>
+    </div>
+    <div class="col border-start border-3 ps-2">
+        <p>
+            Counter (at Page Level): @Counter
+        </p>
+        <p>
+            Messages: <br />
+            @((MarkupString)Message)
+        </p>
+
+        <hr />
+
+        <p>CascadingValues are <b><i>active</i></b> by default.   
+           If a cascading value is changed, then the new value will be sent down the component tree 
+           and all components that use it will be updated. This can cause performance issues.</p>
+        <div class="ps-5">Set the CascadingValue Parameter <b>IsFixed</b> attribute, when you do not want Blazor to observe changes.</div>
+
+        <CascadingValue Value="Counter" IsFixed="true">
+            <EgCascadingValue7ComponentTwo></EgCascadingValue7ComponentTwo>
+        </CascadingValue>
+    </div>
+</div>
+
+
+
+@code {
+
+    int Counter { get; set; } = 0;
+
+    string Message { get; set; } = string.Empty;
+
+    // The Event Handler for the Component's OnCounterChange Event.
+    void CounterChangeHandler()
+    {
+        Counter++;
+
+        StateHasChanged();    
+    }
+
+    void NotifyMessageHandler(string message)
+    {
+        Message += message + "<br />";    
+    }
+
+}
+

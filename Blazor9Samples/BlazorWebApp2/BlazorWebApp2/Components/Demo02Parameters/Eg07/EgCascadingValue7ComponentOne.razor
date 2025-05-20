@@ -1,0 +1,45 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>Component 1.</h4>
+
+    <p>Counter at the Component Level:<b>@Something</b></p>
+
+    <p>
+        <button class="btn btn-primary" @onclick="IncrementCounter">
+            Click Me
+        </button>
+    </p>
+</div>
+
+@code 
+{
+
+    [CascadingParameter]
+    int? Something { get; set; }
+
+    // Define the callback delegate handler for the Event
+    [Parameter]
+    public Action? OnCounterChange { get; set;}
+
+    // Another Event with a parameter for the callback delegate
+    [Parameter]
+    public Action<string>? NotifyMessage { get; set; }
+
+
+    private void IncrementCounter()
+    {
+        // The parameter's value should be changed at its Source (in this case, the page).
+        // So, we raise the event, and ask the page to change the value!
+        //      Something++;     
+
+        // Raise the event, only if it is subscribed.
+        OnCounterChange?.Invoke();
+
+        // And we do not need to explicitly invoke StateHasChanged() here, since the page's event handler would enforce this.
+        //      StateHasChanged();
+
+        // Raise the other event, only if it is subscribed, with some "message" parameter for the callback delegate
+        NotifyMessage?.Invoke("Button Clicked!");
+    }
+
+}

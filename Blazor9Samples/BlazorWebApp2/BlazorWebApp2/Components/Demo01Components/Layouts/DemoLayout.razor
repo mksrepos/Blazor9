@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+@layout BlazorWebApp2.Components.Layout.MainLayout
+
+<div>
+    <h3>Nested Layout for Demo 01 pages</h3>
+    <hr />
+    <div class="row">
+        <div class="col-lg-3 bg-dark">
+            <Microsoft.AspNetCore.Components.Sections.SectionOutlet SectionName="MySectionContent" />
+        </div>
+        <div class="col-lg-9">
+            @Body
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

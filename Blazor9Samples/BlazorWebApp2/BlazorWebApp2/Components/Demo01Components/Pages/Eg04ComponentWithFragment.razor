@@ -1,0 +1,70 @@
+﻿@page "/demo01/eg-component-with-fragment"
+
+@rendermode InteractiveServer
+
+<p>This demonstrates how to use a fragment in a component.</p>
+
+<p>
+    The component accepts a RenderFragment as a parameter.
+    The RenderFragment is used to render the child content of the component.
+</p>
+
+<p>Status: @statusMessage</p>
+
+<ComponentWithFragment Title="Example of Component with RenderFragment">
+
+
+    @* This is the RenderFragment parameter of the component *@
+    <ActionButtonsChildContent>
+        <button class="btn btn-primary me-1" @onclick="OnAddNew">
+            Add New
+        </button>
+        <button class="btn btn-primary">
+            Upload
+        </button>
+    </ActionButtonsChildContent>
+
+</ComponentWithFragment>
+
+<ComponentWithFragment Title="List of Customers">
+
+
+    @* This is the RenderFragment parameter of the component *@
+    <ActionButtonsChildContent>
+        <button class="btn btn-primary me-1" @onclick="OnAddNew">
+            Add New Customer
+        </button>
+        <button class="btn btn-primary">
+            Upload Customers
+        </button>
+    </ActionButtonsChildContent>
+
+</ComponentWithFragment>
+
+
+<ComponentWithFragment Title="List of Suppliers">
+
+
+    @* This is the RenderFragment parameter of the component *@
+    <ActionButtonsChildContent>
+        <button class="btn btn-primary me-1" @onclick="OnAddNew">
+            Add New Suppliers
+        </button>
+        <button class="btn btn-primary">
+            Upload Suppliers
+        </button>
+    </ActionButtonsChildContent>
+
+</ComponentWithFragment>
+
+
+@code {
+
+    private string? statusMessage;
+
+    private void OnAddNew()
+    {
+        statusMessage = "NEW Clicked";
+    }
+
+}

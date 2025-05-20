@@ -1,0 +1,57 @@
+﻿@page "/demo02/querystringparameters-byattribute"
+
+@using Microsoft.AspNetCore.WebUtilities
+
+@rendermode InteractiveServer
+
+@inject NavigationManager _navigationManager
+
+<h3>Example of ParameterFromQuery Attribute</h3>
+
+<p><b>Title</b> : @Title</p>
+<p><b>IsEnabled</b> : @IsEnabled</p>
+<p><b>Age</b> : @Age</p>
+
+<p>
+    <button class="btn btn-primary" @onclick="OnClickHandler">
+        Click to test QueryString by Code
+    </button>
+</p>
+<p>
+    <a class="btn btn-secondary"
+       href="/demo02/querystringparameters-byattribute?title=Manoj%27s+Demonstration&IsEnabled=false">
+       Click to test QueryString by Link (with enhanced navigation)
+    </a>
+</p>
+<p>
+    <a class="btn btn-secondary"
+       data-enhance-nav="false"
+       href="/demo02/querystringparameters-byattribute?title=Manoj%27s+Demonstration&IsEnabled=false">
+        Click to test QueryString by Link (WITHOUT enhanced navigation)
+    </a>
+</p>
+
+
+@code {
+
+    [SupplyParameterFromQuery]
+    private string? Title { get; set; }
+
+    [SupplyParameterFromQuery]
+    private bool? IsEnabled { get; set; }
+
+    [SupplyParameterFromQuery]
+    private int? Age { get; set; }
+
+
+    private void OnClickHandler()
+    {
+        // check out what happens if forceLoad is set to false (default)
+        // NOTE: forceLoad=true disables "enhanced navigation" (a.k.a. client-side routing)
+        //       forceLoad=false enables "enhanced navigation"
+        _navigationManager.NavigateTo(
+            "/demo02/querystringparameters-byattribute?title=Manoj+Kumar+Sharam&age=27&IsEnabled=true",
+            forceLoad: true);
+    }
+
+}

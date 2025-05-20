@@ -1,0 +1,19 @@
+﻿@page "/demo02/CascadingValue2"
+
+<h3>Example of CascadingValue</h3>
+
+<p>
+    All you need to do is declare a property of the same type in your child component as a [CascadingParameter]. 
+    It is mapped by the datatype of the "Value" attribute of the built-in CascadingValue Component.
+</p>
+
+<CascadingValue Value="CompanyName">
+    <CascadingValue Value="CompanyId">
+        <EgCascadingValueComponent2></EgCascadingValueComponent2>
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+    string CompanyName = "Microsoft India";
+    int CompanyId = 1001;
+}

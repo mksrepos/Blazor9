@@ -1,0 +1,44 @@
+﻿@page "/demo03/eg-twoway-binding"
+
+@rendermode InteractiveServer
+
+<h3>Example of Two-Way Binding</h3>
+
+<p>
+    Here, the changes to the parameter variable of the child component ARE REFLECTED in the ancestor component
+    because the parameter is now "bound".
+</p>
+
+<p>
+    Counter in the Page hosting the component:
+    <b>@counterInPage</b>
+</p>
+
+<button class="btn btn-primary" @onclick="OnClick">Click Me to change in the page</button>
+
+@* 
+    <hr />
+    <h3>Event Subscription Version</h3>
+    <EgTwoWayBindingComponent Counter="@counterInPage" CounterChanged="CounterChanged" />
+ *@
+
+<hr />
+<h3>Two Way Binding Version (using the EventCallBack delegate)</h3>
+<EgTwoWayBindingComponent @bind-Counter="@counterInPage" />
+
+@code
+{
+    private int counterInPage = 0;
+
+    private void CounterChanged( int counter )
+    {
+        counterInPage = counter;
+    }
+
+
+    private void OnClick()
+    {
+        counterInPage++;
+    }
+
+}

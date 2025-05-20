@@ -1,0 +1,20 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>Example of the CascadingParameter by Name</h4>
+
+    <p>The cascading value is mapped by Name:</p>
+    <p>CascadingParameter (Name = "CompanyName"): <b>@Something</b></p>
+    <p>CascadingParameter (Name = "Author"): <b>@SomethingElse</b></p>
+
+    <EgCascadingValueComponent4Child CssClass="alert-warning"></EgCascadingValueComponent4Child>
+</div>
+
+@code {
+
+    [CascadingParameter(Name = "CompanyName")]
+    string? Something { get; set; }
+
+    [CascadingParameter(Name = "Author")]
+    string? SomethingElse { get; set; }
+
+}
