@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApp2.Client", "Bla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_INotifyPropertyChanged", "Demo_INotifyPropertyChanged\Demo_INotifyPropertyChanged.csproj", "{9EA9C549-C8BF-4C0B-974C-9D3B7CE067C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_INotifyCollectionChanged", "Demo_INotifyCollectionChanged\Demo_INotifyCollectionChanged.csproj", "{F93E2827-89BA-DBF3-3FE0-7CF29C317BB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_Action", "Demo_Action\Demo_Action.csproj", "{48431216-65F5-A834-C446-57732075105D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_Func", "Demo_Func\Demo_Func.csproj", "{22CB954E-977E-FA40-663E-8EE53C0E5FD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +33,18 @@ Global
 		{9EA9C549-C8BF-4C0B-974C-9D3B7CE067C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EA9C549-C8BF-4C0B-974C-9D3B7CE067C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EA9C549-C8BF-4C0B-974C-9D3B7CE067C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F93E2827-89BA-DBF3-3FE0-7CF29C317BB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93E2827-89BA-DBF3-3FE0-7CF29C317BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F93E2827-89BA-DBF3-3FE0-7CF29C317BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93E2827-89BA-DBF3-3FE0-7CF29C317BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48431216-65F5-A834-C446-57732075105D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48431216-65F5-A834-C446-57732075105D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48431216-65F5-A834-C446-57732075105D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48431216-65F5-A834-C446-57732075105D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22CB954E-977E-FA40-663E-8EE53C0E5FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22CB954E-977E-FA40-663E-8EE53C0E5FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22CB954E-977E-FA40-663E-8EE53C0E5FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22CB954E-977E-FA40-663E-8EE53C0E5FD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

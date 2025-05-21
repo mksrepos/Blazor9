@@ -1,6 +1,56 @@
-﻿<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Client._Imports).Assembly }">
+﻿@inject ILogger<Routes> _logger;
+
+
+@* NOTE: The AdditionalAssemblies collection define the list of lazy loading assemblies *@
+<Router AppAssembly="typeof( Program ).Assembly" 
+        AdditionalAssemblies="new[] { typeof( Client._Imports ).Assembly }"
+        OnNavigateAsync="OnNavigateAsyncHandler">
+
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
+
+@*
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+            <NotAuthorized>
+                <RedirectToLogin />
+            </NotAuthorized>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+ *@
+
+    @* My Custom 404 error *@
+    @* NOTE: For some reason, this feature no longer works as expected in .NET 9.  Works in .NET 7 and .NET 8 ONLY *@
+    <NotFound>
+        <LayoutView Layout="typeof( Layout.MainLayout )">
+            <p class="text-danger">
+                OOPs!  I think you have not provided the correct URL.
+                You could try again, by returning back to the page you came from.
+            </p>
+        </LayoutView>
+    </NotFound>
+
+    @* My Custom Lazy Loading message, while asynchronous navigation is in progress. *@
+    <Navigating>
+        <div class="alert alert-info">
+            Loading the requested page.  Please wait...
+        </div>
+    </Navigating>
+
 </Router>
+
+
+@code {
+
+    // Called before navigating to a new page.
+    private Task OnNavigateAsyncHandler ( NavigationContext args )
+    {
+        _logger.LogInformation( "Navigating to: {Path}", args.Path );
+
+        return Task.CompletedTask;
+    }
+
+}

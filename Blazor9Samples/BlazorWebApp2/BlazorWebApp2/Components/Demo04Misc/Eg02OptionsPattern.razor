@@ -1,0 +1,34 @@
+﻿@page "/demo04/eg-options"
+
+@using BlazorWebApp2.Components.Demo04Misc.Models
+@using Microsoft.Extensions.Options
+
+@inject IOptions<MyAppOptionsModel> _appOptions
+
+<h3>Example of Options Pattern</h3>
+
+<p>This page retrieves the configuration info from the appsettings.json file 
+   using the strongly typed model defining the configuration values.</p>
+
+<ul>
+    <li>
+        Company Name:
+        <b>@_appOptions.Value.CompanyName</b>
+    </li>
+    <li>
+        Trainer:
+        <b>@myAppOptions?.TrainerName</b> [ @myAppOptions?.TrainerId]
+    </li>
+</ul>
+
+
+@code {
+
+    MyAppOptionsModel? myAppOptions;
+
+    protected override void OnInitialized()
+    {
+        myAppOptions = _appOptions.Value;
+    }
+
+}

@@ -1,0 +1,34 @@
+﻿@page "/demo04/eg-iconfig"
+
+@inject IConfiguration _configuration
+
+<h3>Example of IConfiguration</h3>
+
+<p>This page retrieves the configuration info from the appsettings.json file using IConfiguration</p>
+
+<ul>
+    <li>
+        Company Name: 
+        <b>@companyName</b>
+    </li>
+    <li>
+        Trainer:
+        <b>@trainerName</b> [ @trainerId ] 
+    </li>
+</ul>
+
+
+@code {
+
+    string? companyName;
+    string? trainerName;
+    int trainerId;
+
+    protected override void OnInitialized()
+    {
+        companyName = _configuration.GetValue<string>("MyAppOptions:CompanyName");
+        trainerName = _configuration.GetValue<string>("MyAppOptions:TrainerName");
+        trainerId = _configuration.GetValue<int>("MyAppOptions:TrainerId");
+    }
+
+}

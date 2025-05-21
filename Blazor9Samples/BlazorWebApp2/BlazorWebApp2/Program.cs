@@ -1,16 +1,39 @@
-using BlazorWebApp2.Client.Pages;
 using BlazorWebApp2.Components;
+using BlazorWebApp2.Components.Demo04Misc.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+//----- Add services to the container.
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+// Register the Configuration typed options model into the application services DI container 
+builder.Services
+    .AddOptions<MyAppOptionsModel>()
+    .BindConfiguration( "MyAppOptions" )                // section name in appsettings.json file
+    .ValidateDataAnnotations()                          // to enforce validation rules
+    .ValidateOnStart()                                  // add if needed.
+    .Validate( options =>
+    {
+        if ( options.TrainerName == "Manoj Kumar Sharma" )
+        {
+            return true;
+        }
+
+        // throws the Microsoft.Extensions.Options.OptionsValidationException:
+        // with the default message: 'A validation error has occurred.'
+        return false;
+    } );
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+// ----- Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -24,13 +47,29 @@ else
 
 app.UseHttpsRedirection();
 
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
+
+app.MapRazorComponents<App>()                    // discovers available components & specifies Root Component for the App.
+    .AddInteractiveServerRenderMode()            // configures interactive server-side rendering (interactive SSR) for the app
+    .AddInteractiveWebAssemblyRenderMode()       // configures the Interactive WebAssembly render mode for the app
     .AddAdditionalAssemblies(typeof(BlazorWebApp2.Client._Imports).Assembly);
+
+
+// Custom Middleware for routing (Part of Demo04Misc examples). 
+// NOTE: Check out how the "Routes" component is configured.
+app.Use( async ( context, next ) =>
+{
+    await next( context );
+
+    //// Comment out the following lines of code to see the default behaviour for HTTP 404 Not Found.
+    //// NOTE: check what happens when Enhanced Navigation is ON or OFF
+    if ( context.Response.StatusCode == StatusCodes.Status404NotFound && !context.Response.HasStarted )
+    {
+        context.Response.Redirect( "/Error/404" );
+    }
+} );
+
 
 app.Run();

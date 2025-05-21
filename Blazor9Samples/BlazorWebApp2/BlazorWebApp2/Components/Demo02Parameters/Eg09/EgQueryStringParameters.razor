@@ -8,7 +8,7 @@
 
 <h3>Example of QueryString Parameter</h3>
 
-<p>Add the Nuget Library: <b>Microsoft.AspNetCore.WebUtilities</b></p>
+<p>Add the Nuget Library: <b>Microsoft.AspNetCore.WebUtilities</b> for QueryHelper</p>
 
 @if(queryStringItems is null || queryStringItems.Count() < 1)
 {
@@ -16,17 +16,30 @@
 }
 else
 {
-    <p>Query String Values:</p>
+    <p><b>List of Items in QueryString:</b></p>
     @foreach (var item in queryStringItems)
     {
         <p><b>@item.Key</b> : @item.Value</p>
     }
 }
 
+<p><b>Extracted QueryString parameter:</b></p>
+<p>
+    Name: @Name
+</p>
+
 <p>
     <button class="btn btn-primary" @onclick="OnClickHandler">
         Click to test QueryString by Code
     </button>
+</p>
+<p>
+    <NavLink class="btn btn-secondary"
+       data-enhance-nav="false"
+       href="/demo02/querystringparameters?title=NavLink+Demon&IsEnabled=false">
+        Click to test QueryString by NavLink
+    </NavLink>
+
 </p>
 <p>
     <a class="btn btn-secondary"
