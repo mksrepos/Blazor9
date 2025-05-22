@@ -29,6 +29,13 @@ builder.Services
         return false;
     } );
 
+// Register the Bogus Generator Services
+builder.Services.AddTransient<BlazorWebApp2.Services.BogusGenerators.BogusProductService>();
+builder.Services.AddTransient<BlazorWebApp2.Services.BogusGenerators.BogusPersonService>();
+
+// Register the Services needed to enable ASP.NET Controllers and Web API Controllers
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 

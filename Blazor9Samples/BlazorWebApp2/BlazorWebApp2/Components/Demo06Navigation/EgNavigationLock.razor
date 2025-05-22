@@ -1,0 +1,65 @@
+﻿@page "/demo06/demo-navigationlock"
+
+@rendermode InteractiveServer
+@inject IJSRuntime _jsRuntime
+
+<h3>Example of NavigationLock component</h3>
+
+@if(isSaved)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        Your changes have been saved successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<label for="name">Fill in your name</label>
+<input id="name" @bind-value="@name"></input>
+
+<button @onclick="Save">Save Changes</button>
+
+<button @onclick="ModalDemo">Show modal</button>
+
+
+<MyModal @ref="PreventModal" Title="You are about to leave">
+    You have unsaved data,
+    which you will lose if you navigate away from this page.
+    Decline to save your data before leaving.
+</MyModal>
+
+<MyModal @ref="DemoModal" Title="Demo of Modal">
+    This is a demo of the modal dialog.
+    Use it to display additional information or to request user input.
+</MyModal>
+
+
+<NavigationLock OnBeforeInternalNavigation="OnLocationChanging" />
+
+<hr />
+<p>
+    Check out the demo video by Patrick God:<br />
+    <a href="https://www.youtube.com/watch?v=akffcwNpJiY&t=582s">NavigationLock Component</a>
+</p>
+
+
+@code {
+    private string name = "";
+
+    private MyModal? PreventModal;
+
+    private MyModal? DemoModal;
+
+    //NOTE: This example using the NavigationLock component DOES NOT WORK AT ALL!
+    //      Place a breakpoint in this method to see that it is not getting called at all.
+    //      If it worked, then the ideal handler is as shown in the partial-class file.
+    async Task OnLocationChanging(LocationChangingContext context)
+    {
+        var confirmed = await _jsRuntime.InvokeAsync<bool>(
+            "window.confirm", "You have unsaved data. Are you sure you want to leave?");
+
+        if (!confirmed)
+        {
+            context.PreventNavigation();
+        }
+    }
+}

@@ -1,0 +1,13 @@
+﻿@inject NavigationManager _NavigationManager
+
+<div class="alert alert-primary">
+    <h4>Component One</h4>
+    <button @onclick="OnClick">Click to see Component Two</button>
+</div>
+
+@code {
+    private void OnClick()
+    {
+        _NavigationManager.NavigateTo("/demo-data-permanent/two");
+    }
+}

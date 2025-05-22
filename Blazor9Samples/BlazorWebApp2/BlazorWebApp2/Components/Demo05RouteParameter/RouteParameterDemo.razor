@@ -1,0 +1,50 @@
+﻿@* @page "/demo05/demo-route-parameter" *@
+ @page "/demo-route-parameter/{ProductId:int}"
+
+<h3>Route Parameter Demo</h3>
+
+<p>Pass a ProductId in the URL</p>
+
+<p>
+    In the previous example, I used the SetParametersAsync() method to check if the parameter was received.
+    In this demo, I am using OnParametersSet() to check the optional parameter was received in the page with a valid value.
+</p>
+
+<p>
+    To enforce that the parameter is compulsory, 
+    comment out the @@page directive without the parameter.
+</p>
+
+<p>
+    NOTE: Since the route parameters are always string by default, to help work with typed parameters,
+    it is always better to define the parameter as optional, by adding multiple page directives.
+</p>
+
+<p>Received: @ProductId</p>
+
+@code {
+
+    [Inject]
+    // private ILogger<RouteParameterDemo>? _logger { get; set; }
+    private ILogger<RouteParameterDemo> _logger { get; set; }  = default!;      // "!" enforces not-null.0
+
+
+    [Parameter]
+    public int ProductId { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (ProductId == default || ProductId < 0 )
+        {
+            // No ProductId was supplied in the URL (Default value applied), 
+            // Or if ProductId is an invalid negative value, I am setting a coerced value.
+            ProductId = -1;
+        }
+
+        // Example of Structured Logging  (check OUTPUT -> DEBUG window for log entry)
+        _logger.LogInformation("--- OnParameterSet() called.  ProductID is {ProductId}!", ProductId);
+
+        base.OnParametersSet();
+    }
+
+}

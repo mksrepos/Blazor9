@@ -1,0 +1,84 @@
+﻿@page "/demo06/demo-navigation"
+
+@inject IJSRuntime _jsRuntime
+@inject NavigationManager _navigationManager
+
+@implements IDisposable
+
+
+@* NOTE: If this Page is in the CLIENT Project, it does not need the rendermode to be defined! *@
+@rendermode InteractiveServer
+
+<h3>Navigation Manager Demo</h3>
+
+<p>Navigate away from this page, to see an alert message from JavaScript!</p>
+
+<a class="btn btn-primary mb-2" href="/">
+    Click to navigate by HTML
+</a>
+
+<br />
+
+<button class="btn btn-primary mb-2" @onclick="OnClick">
+    Click to navigate by Code.
+</button>
+
+<hr />
+
+<button class="btn btn-primary mt-2 mb-2" @onclick="OnClickAgain">
+    Click to navigate by Code, with ForceLoad
+</button>
+
+<button class="btn btn-primary" @onclick="() => _navigationManager.Refresh(forceReload: true)">
+    Refresh the page.
+</button>
+
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        _navigationManager.LocationChanged += OnLocationChanged;
+
+        base.OnInitialized();
+    }
+
+    private void OnClick()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+
+    public void OnClickAgain()
+    {
+        // NOTE: forceLoad=true disables "enhanced navigation" (a.k.a. client-side routing)
+        //       forceLoad=false enables "enhanced navigation"
+        _navigationManager.NavigateTo("/", forceLoad: true);
+    }
+
+
+    #region Helper methods
+
+    private void OnLocationChanged( object? sender, LocationChangedEventArgs e ) 
+    {
+        string navigationMethod = e.IsNavigationIntercepted ? "HTML" : "CODE";
+        string message = $"Notified of navigation via {navigationMethod} to {e.Location}";
+
+        _jsRuntime.InvokeVoidAsync("alert", message);
+
+
+        System.Diagnostics.Debug.WriteLine(message);
+    }
+
+    #endregion
+
+
+    #region IDisposable members
+
+    public void Dispose() 
+    {
+        _navigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+    #endregion
+}

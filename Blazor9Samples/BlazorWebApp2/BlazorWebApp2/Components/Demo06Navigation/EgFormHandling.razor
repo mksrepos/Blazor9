@@ -1,0 +1,46 @@
+﻿@page "/demo06/demo-form-enahanced-navigation"
+
+<h3>Example of Enhanced Form Handling Feature</h3>
+
+<p>
+  Check out what happens when enhanced form handling is not enabled to the form.
+  Enable enhanced form handling to retain the scroll-position on form POSTbacks.
+</p>
+<p>
+    NOTE:<br />
+    By default, Blazor uses enhanced navigation.  But then, if enhanced form handling was enabled for a FORM also, 
+    and if the FORM was being submitted to a non-Blazor endpoint such as a ASP.NET Razor Page, 
+    then the initial FETCH request would fail, and the subsequent FULL-PAGE request will have to be made.  
+    This would mean that the duplicate POST request would result in duplicate transaction submission on the server.
+    In order to avoid this, the enhanced form handling feature is an OPT-IN feature.
+</p>
+
+<div style="border: 1px solid #ccc; width: 80vh; height: 80vh; background-color: #ffffee;">
+    Some content here.
+</div>
+
+<div class="border border-1 border-primary p-3 m-4">
+    @* The POST request must specify which form is being submitted. 
+       To do this, ensure that the <form> elements have a @formname attribute with any unique value, 
+       or pass a FormName parameter if using <EditForm>.
+    *@
+    <form method="post" @formname="formDemo">
+        @* 
+            NOTE: The application is configured to use the AntiforgeryToken middleware in Program.cs
+                  The applicatino will throw an exception if the AntiforgeryToken is not provided for every POST submission.
+        *@
+        <AntiforgeryToken />
+
+        <div class="form-group mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address:</label>
+            <input type="email" class="form-control" id="inputEmail" name="inputEmail"
+                   aria-describedby="emailHelp" placeholder="Enter email" />
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Details</button>
+    </form>
+</div>
+
+@code {
+
+}

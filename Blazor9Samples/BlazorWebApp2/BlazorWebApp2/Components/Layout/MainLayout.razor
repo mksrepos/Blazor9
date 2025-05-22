@@ -15,7 +15,18 @@
             <Demo03BindingMenuItems />
 
             @* for understanding Routing Concepts and for Custom Middleware *@
-            @* <Demo04MiscMenuItems /> *@
+            <Demo04MiscMenuItems />
+
+            @* <Demo05RouteParameterMenuItems /> *@
+
+            @* <Demo06NavigationMenuItems /> *@
+
+
+            @* 
+                This is for the "Data Permanent Demo" as part of the Demo06Navigation demos.
+                NOTE: There is a SCRIPT block in the bottom of this MainLayout component referring to the "myDiv"
+            *@
+            @* <div id="myDiv" data-permanent="true"></div> *@
 
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
@@ -31,3 +42,15 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+
+@* This is for the "data-permanent" attribute demo, part of the Demo06NavigationDemos *@
+@*
+<script>
+    let myDivContainer = document.getElementById('myDiv');
+    if(myDivContainer !== null)
+    {
+        myDivContainer.innerHTML = "Hello World! updated by JavaScript";
+    }
+</script>
+ *@

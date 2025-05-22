@@ -1,0 +1,65 @@
+﻿@page "/demo-form-data-enhance"
+
+@using BlazorWebApp2.ViewModels
+@inject BlazorWebApp2.Services.BogusGenerators.BogusProductService _bogusProductService
+
+<h3>Form data-enhance Demo</h3>
+
+<p>Check out the Network Tab in Developer Tools of the browser.</p>
+
+<form data-enhance="true">
+    <input name="query" placeholder="Search" value="@Query" />
+    <button>Search</button>
+</form>
+
+@if (filteredEntries is null || filteredEntries.Count == 0)
+{
+    <p>No entries found</p>
+}
+else 
+{
+    <p>Entries found: @filteredEntries.Count</p>
+    <ul>
+        @foreach (var item in filteredEntries)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}
+
+<hr />
+
+<p>
+    For a more detailed understanding on Enhanced Navigation, check out this short 13 minute video by Ganesh:<br /> 
+    <a href="https://www.youtube.com/watch?v=t7Ws9mSRKM8" target="_blank">Enhanced Navigation</a>
+</p>
+<p>
+    For a more detailed understanding on Bogus and how to generate test data, check out:<br />
+    <a href="https://blog.wildermuth.com/2023/01/29/generating-sample-data-with-bogus/" target="_blank">Generating Sample Data with Bogus</a><br />
+    by Shawn Wildermuth<br />
+    <br />
+    <a href="https://github.com/bchavez/Bogus">Github: BOGUS</a>
+</p>
+
+
+@code {
+
+    [SupplyParameterFromQuery]
+    public string? Query { get; set; }
+
+    public List<ProductViewModel>? entries = new();
+    private List<ProductViewModel>? filteredEntries = new();
+
+    protected override void OnInitialized()
+    {
+        entries = _bogusProductService.GenerateProducts();
+
+        if( entries is not null)
+        {
+            filteredEntries = !string.IsNullOrEmpty(Query)
+                ? entries.Where(e => e.ProductName.Contains(Query, StringComparison.OrdinalIgnoreCase)).ToList()
+                : entries;
+        }
+    }
+
+}
