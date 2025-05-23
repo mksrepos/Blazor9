@@ -1,5 +1,5 @@
 ﻿@* @page "/demo05/demo-route-parameter" *@
- @page "/demo-route-parameter/{ProductId:int}"
+@page "/demo05/demo-route-parameter/{ProductId:int}"
 
 <h3>Route Parameter Demo</h3>
 
@@ -26,8 +26,7 @@
 
     [Inject]
     // private ILogger<RouteParameterDemo>? _logger { get; set; }
-    private ILogger<RouteParameterDemo> _logger { get; set; }  = default!;      // "!" enforces not-null.0
-
+    private ILogger<BlazorWebApp2.Components.Demo05RouteParameter.RouteParameterDemo> _logger { get; set; }  = default!;      // "!" enforces not-null.0
 
     [Parameter]
     public int ProductId { get; set; }

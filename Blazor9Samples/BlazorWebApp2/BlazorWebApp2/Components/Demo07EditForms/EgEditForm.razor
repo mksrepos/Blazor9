@@ -1,0 +1,92 @@
+﻿@page "/demo07/editForm"
+
+@using System.ComponentModel.DataAnnotations
+
+<h3>Example EditForm - with Model</h3>
+
+@if (person != null)
+{
+    @* 
+        EditForm requires a Model parameter, or an EditContext parameter, but not both. 
+        The EditForm component creates the EditContext internally when a Model parameter is provided.
+    *@
+    <EditForm Model="@person" FormName="myForm" 
+              OnValidSubmit="@OnValidSubmit"
+              OnInvalidSubmit="@OnInvalidSubmit">
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        @*  
+            NOTE: Either add the AntiforgeryToken explicitly in the Form,
+                  OR configure to add the middleware at the application level in Program.cs
+                  Adding both, generates two anti-forgery tokens into the form, which causes conflict!
+            <AntiforgeryToken />
+        *@
+        
+        <div class="form-group mb-2">
+            <label class="form-label" for="Name">Name of Person</label>
+            <InputText id="Name" class="form-control" @bind-Value="person.Name" />
+            <ValidationMessage For="@(() => person.Name)" class="validation-message" />
+        </div>
+
+        <div class="form-group mb-2">
+            <label class="form-label" for="Age">Age</label>
+            <InputNumber id="Age" class="form-control" @bind-Value="@person.Age" />
+            <ValidationMessage For="@(() => person.Age)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Submit
+        </button>
+
+    </EditForm>
+
+
+    <p><b>Name: </b> @person.Name </p>
+    <p><b>Age: </b> @person.Age </p>
+    <p><b>Submission Status: </b> @SubmissionStatus</p>
+}
+
+
+
+@code {
+
+    [SupplyParameterFromForm]               // provides the Context Binding for the EditForm component
+    private PersonViewModel? person { get; set; }
+
+    private string? SubmissionStatus { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        person ??= new PersonViewModel {
+            Name = "Manoj Kumar Sharma", 
+            Age = 27 
+        };
+    }
+
+
+    private void OnValidSubmit()
+    {
+        SubmissionStatus = "Form Submitted Successfully!";
+    }
+
+    private void OnInvalidSubmit()
+    {
+        SubmissionStatus = "Form Submission Failed!";
+    }
+
+    // Input Model
+    private class PersonViewModel
+    {
+        [Display(Name = "Name of the Person")]
+        [Required(ErrorMessage = "{0} cannot be empty.")]
+        [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "{0} should contain {2} to {1} characters.")]
+        public string Name { get; set; } = string.Empty;
+
+        [Display(Name = "Age of the Person")]
+        [Range(minimum: 18, maximum: 60, ErrorMessage = "{0} should be between {1} to {2}.")]
+        public int Age { get; set; }
+    }
+
+}

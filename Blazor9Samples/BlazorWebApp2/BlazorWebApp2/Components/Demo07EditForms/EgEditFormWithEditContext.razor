@@ -1,0 +1,125 @@
+﻿@page "/demo07/editFormWithContext"
+
+@using System.ComponentModel.DataAnnotations
+
+<h3>Example EditForm - with EditContext</h3>
+
+<p>
+    Do not forget:
+    <ul>
+        <li>
+            To retain ScrollPosition in Enhanced Navigation, use the <code>data-enhance="true"</code> attribute to the HTML form element or the container DIV.<br />
+        </li>
+        <li>
+            Or, set the <code>Enhance</code> attribute of the Blazor EditForm component to true.
+        </li>
+    </ul>
+
+</p>
+
+<div class="border border-secondary m-4 text-bg-info d-flex align-items-center justify-content-center" style="height: 400px;">
+    Some content in the page.
+</div>
+
+@if (person != null)
+{
+    @* EditForm requires a Model parameter, or an EditContext parameter, but not both. *@
+    <EditForm EditContext="@editContext" FormName="myForm"
+              Enhance="true"
+              OnValidSubmit="@OnValidSubmit"
+              OnInvalidSubmit="@OnInvalidSubmit">
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group mb-2">
+            <label class="form-label" for="Name">Name</label>
+            <InputText id="Name" class="form-control" @bind-Value="@person.Name" />
+            <ValidationMessage For="@(() => person.Name)" />
+        </div>
+
+        <div class="form-group mb-2">
+            <label class="form-label" for="Age">Age</label>
+            <InputNumber id="Age" class="form-control" @bind-Value="@person.Age" />
+            <ValidationMessage For="@(() => person.Age)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-2">
+            Submit
+        </button>
+
+    </EditForm>
+
+
+    <p><b>Name: </b> @person.Name </p>
+    <p><b>Age: </b> @person.Age </p>
+    <p><b>Submission Status: </b> @SubmissionStatus</p>
+}
+
+
+
+@code {
+
+    [SupplyParameterFromForm]               // provides the Context Binding for the EditForm component
+    private PersonViewModel? person { get; set; }
+
+    private string? SubmissionStatus { get; set; }
+
+    private EditContext? editContext;
+    private ValidationMessageStore? validationMessageStore;
+
+    protected override void OnInitialized()
+    {
+        person ??= new PersonViewModel
+            {
+                Name = "Manoj Kumar Sharma",
+                Age = 27
+            };
+
+        editContext ??= new EditContext(person);
+        validationMessageStore = new ValidationMessageStore(editContext);
+    }
+
+
+    private void OnValidSubmit()
+    {
+        SubmissionStatus = "Form Submitted Successfully!";
+
+        // Validate the Model
+        if (person is not null && person.Name != "Manoj Kumar Sharma")
+        {
+            validationMessageStore?.Add(() => person.Name, "Name should be 'Manoj Kumar Sharma' ONLY!");
+        }
+
+        if (editContext?.GetValidationMessages().Count() > 0)
+        {
+            // Some validation errors were found.
+            SubmissionStatus = "Form submission failed OnValidSubmit!";
+        }
+        else
+        {
+            // Everything fine.  Submit the data to DB or API
+            SubmissionStatus = "Form Submitted Successfully!";
+        }
+    }
+
+
+    private void OnInvalidSubmit()
+    {
+        SubmissionStatus = "Form Submission Failed!";
+    }
+
+
+    private class PersonViewModel
+    {
+        [Display(Name = "Name of the Person")]
+        [Required(ErrorMessage = "{0} cannot be empty.")]
+        [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "{0} should contain {1} to {2} characters.")]
+        public string Name { get; set; } = string.Empty;
+
+        [Display(Name = "Age of the Person")]
+        [Range(minimum: 18, maximum: 60, ErrorMessage = "{0} should be between {1} to {2}.")]
+        public int Age { get; set; }
+    }
+
+}

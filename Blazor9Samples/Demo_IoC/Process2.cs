@@ -9,7 +9,9 @@ internal class Process2
 
     internal void DoSomethingByEvent()
     {
+        Process2.Step1();
         eventHandler?.Invoke();
+        Process2.Step3();
     }
 
     // Inversion of Control (IoC) using Delegate

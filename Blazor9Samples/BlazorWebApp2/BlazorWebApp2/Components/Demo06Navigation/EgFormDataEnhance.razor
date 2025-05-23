@@ -1,4 +1,4 @@
-﻿@page "/demo-form-data-enhance"
+﻿@page "/demo06/demo-form-data-enhance"
 
 @using BlazorWebApp2.ViewModels
 @inject BlazorWebApp2.Services.BogusGenerators.BogusProductService _bogusProductService
@@ -7,6 +7,11 @@
 
 <p>Check out the Network Tab in Developer Tools of the browser.</p>
 
+<div class="border border-secondary bg-warning" style="height: 500px;">
+    Some dummy content.
+</div>
+
+@* <form> *@
 <form data-enhance="true">
     <input name="query" placeholder="Search" value="@Query" />
     <button>Search</button>
@@ -22,6 +27,7 @@ else
     <ul>
         @foreach (var item in filteredEntries)
         {
+            @* <li>@item.ProductName [ @item.ProductCategory ]</li>*@
             <li>@item</li>
         }
     </ul>
