@@ -1,0 +1,33 @@
+﻿@page "/demo06/demo-form-data-enhance-scrollpos"
+
+<h3>Form data-enhance Demo - showing Scroll Position during postback</h3>
+
+<p>
+    Enable enhanced form handling to retain the scroll-position on form postbacks using HTTP GET/POST
+    when the attribute <code>data-enhance="true"</code>.
+</p>
+<p>
+    So, apart from providing better performance by reducing the payload during postbacks, 
+    enhanced form handling helps provide a better UX by retaining scroll position.
+</p>
+
+<div style="border: 1px solid #ccc; width: 80vh; height: 80vh; background-color: #ffffee;">
+    Some content here.
+</div>
+
+<div class="border border-1 border-primary p-3 m-4">
+    <form method="post" @formname="formDemo">
+        <AntiforgeryToken />
+        <div class="form-group mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address:</label>
+            <input type="email" class="form-control" id="inputEmail" name="inputEmail"
+                   aria-describedby="emailHelp" placeholder="Enter email" />
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Details</button>
+    </form>
+</div>
+
+@code {
+
+}

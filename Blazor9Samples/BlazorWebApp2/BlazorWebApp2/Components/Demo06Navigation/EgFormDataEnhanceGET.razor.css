@@ -1,0 +1,9 @@
+﻿/*
+    NOTE: All component level JS and CSS files should have BUILD ACTION = NONE set in their File Properties!
+*/
+code {
+    background-color: darkorange;
+    font-weight: bold;
+    padding: 4px;
+    color: #fff;
+}

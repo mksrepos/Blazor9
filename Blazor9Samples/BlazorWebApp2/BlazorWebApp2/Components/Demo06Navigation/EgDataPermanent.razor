@@ -1,6 +1,8 @@
 ﻿@page "/demo06/demo-data-permanent"
 
-<h3>Example of "data-permanent" attribute</h3>
+@rendermode InteractiveServer
+
+<h3>Example of data-permanent="true" attribute</h3>
 
 <p>Retains the contents of any element during Enhanced Navigation.</p>
 
@@ -11,8 +13,11 @@
     which is populated by JavaScript.
 </p>
 <p>
-    Navigating from one page to another, the contents of the DIV element would have been lost.
-    But it can be retained, by using the "data-permanent" attribute.
+    You will notice that when the application startsup, the DIV is populated with some text.
+    Navigating from the home page, to any other page, the contents of the DIV element is lost.<br />
+    But it can be retained, by using the <b>"data-permanent"</b> attribute.<br />
+    <span class="fw-bold">The state of the DIV is retained in the Blazor Circuit during enhanced navigation!</span>
 </p>
-
-
+<p class="fst-italic">
+    Observe, only the state of the DIV is retained.  The dynamically added CSS class, for example, is not retained!
+</p>

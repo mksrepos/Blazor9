@@ -1,17 +1,32 @@
-﻿@page "/demo06/demo-form-data-enhance"
+﻿@page "/demo06/demo-form-data-enhance-GET"
 
 @using BlazorWebApp2.ViewModels
 @inject BlazorWebApp2.Services.BogusGenerators.BogusProductService _bogusProductService
 
-<h3>Form data-enhance Demo</h3>
+<h3>Form data-enhance Demo - with HTTP GET</h3>
 
-<p>Check out the Network Tab in Developer Tools of the browser.</p>
+<p><b>Check out the Network Tab in Developer Tools of the browser.</b></p>
 
-<div class="border border-secondary bg-warning" style="height: 500px;">
-    Some dummy content.
-</div>
+<ul>
+    <li>
+        The default FORM METHOD is <code>HTTP GET</code>.
+    </li>
+    <li>
+        If the HTML FORM element is set with the <code>data-enhance="true"</code> attribute,
+        only DOM manipulation related content is responded by the Blazor Circuit,
+        since BLAZOR uses enhanced navigation as its default behaviour.
+    </li>
+    <li>
+        If the HTML FORM element is set with the <code>data-enhance="false"</code> attribute, or if not mentioned,
+        the, default behaviour is to do a complete form submission.  This would result in a "full postback cycle".
+        This means that <b>the enhanced form handling feature is an OPT-IN feature</b>.
+    </li>
+    <li>
+        This example also demonstrates how to use the <b>BOGUS</b> Nuget package.
+    </li>
+</ul>
 
-@* <form> *@
+
 <form data-enhance="true">
     <input name="query" placeholder="Search" value="@Query" />
     <button>Search</button>
@@ -40,7 +55,7 @@ else
     <a href="https://www.youtube.com/watch?v=t7Ws9mSRKM8" target="_blank">Enhanced Navigation</a>
 </p>
 <p>
-    For a more detailed understanding on Bogus and how to generate test data, check out:<br />
+    For a more detailed understanding on <b>Bogus</b> and how to generate test data, check out:<br />
     <a href="https://blog.wildermuth.com/2023/01/29/generating-sample-data-with-bogus/" target="_blank">Generating Sample Data with Bogus</a><br />
     by Shawn Wildermuth<br />
     <br />

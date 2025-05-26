@@ -56,9 +56,10 @@ else
 app.UseHttpsRedirection();
 
 // Add the Anti-ForgeryToken Middleware.
-// NOTE: Either add the AntiforgeryToken explicitly in the Form,
+// NOTE: Either add the AntiforgeryToken explicitly in the EditForm component,
 //       OR configure to add the middleware at the application level in Program.cs
 //       Adding both, generates two anti-forgery tokens into the form, which causes conflict!
+// NOTE: This does not happen in the HTML FORM element.  It is a problem only with the EDITFORM component.
 app.UseAntiforgery();
 
 app.MapStaticAssets();
