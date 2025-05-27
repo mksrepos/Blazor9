@@ -1,0 +1,99 @@
+﻿@page "/demo04/eg-api"
+
+@using System.Text.Json
+@using System.Text.Json.Serialization
+
+@inject HttpClient _httpClient
+@inject ILogger<BlazorWebApp2.Components.Demo04Misc.Eg03ApiCall> _logger
+@inject IHostEnvironment _hostEnvironment
+
+@rendermode InteractiveServer
+
+<h3>Demo of External Api Call</h3>
+
+<ul>
+    <li>
+        Register the HttpClient in the DI Services container in Program.cs
+    </li>
+</ul>
+
+<hr />
+
+@if ( isApiError && _hostEnvironment.IsDevelopment() )
+{
+    <div class="alert alert-danger">
+        Unable to access the API.  Check the error log.
+    </div>
+}
+else
+{
+    <p>
+        IP Address is: @( extractedIP ?? "Not available" )
+    </p>
+}
+
+
+@code {
+
+    /*
+        EXTERNAL API to get the current IP address from the HTTP Request object:
+            https://api.ipify.org/?format=json
+            =>
+            {
+                "ip":"103.160.27.93"
+            }
+
+        EXTERNAL API to get the information from a given API address:
+            https://ipinfo.io/103.160.27.93/geo
+            =>
+            {
+              "ip": "103.160.27.93",
+              "city": "Hyderābād",
+              "region": "Telangana",
+              "country": "IN",
+              "loc": "17.3840,78.4564",
+              "org": "AS133982 Excitel Broadband Private Limited",
+              "postal": "500001",
+              "timezone": "Asia/Kolkata",
+              "readme": "https://ipinfo.io/missingauth"
+            }
+    */
+
+    private string? extractedIP;
+    private bool isApiError = false;
+
+    protected override async Task OnInitializedAsync ()
+    {
+        var request = new HttpRequestMessage( 
+            method: HttpMethod.Get, 
+            requestUri: "https://api.ipify.org/?format=json" );
+        request.Headers.Add( name: "Accept", value: "application/json" );
+
+        var response = await _httpClient.SendAsync( request );
+
+        if ( response.IsSuccessStatusCode )
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            var apiData = await JsonSerializer.DeserializeAsync<ApiResponseModel>( responseStream );
+            if ( apiData is not null )
+            {
+                extractedIP = apiData.IP;
+            }
+        }
+        else
+        {
+            _logger.LogError( message: "StatusCode: {statusCode}, Reason: {reason}", 
+                              response.StatusCode, 
+                              response.ReasonPhrase );
+            isApiError = true;
+        }
+    }
+
+
+    class ApiResponseModel
+    {
+        [JsonPropertyName("ip")]
+        public string? IP { get; set; }
+    }
+
+}

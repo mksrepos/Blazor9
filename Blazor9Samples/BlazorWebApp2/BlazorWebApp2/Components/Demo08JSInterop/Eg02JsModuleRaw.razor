@@ -1,0 +1,33 @@
+﻿@page "/demo07/demo-jsModule-RAW"
+
+@* @rendermode InteractiveServer *@
+
+<h3>JavaScript Module Example - raw usage</h3>
+
+<ul>
+    <li>
+        Notice the SCRIPT element has <b>type="module"</b> which allows you to import other JS modules.<br />
+        So, now the entire SCRIPT block behaves like a module.
+    </li>
+    <li>
+        Also, note that the JavaScript module block does not download the referenced module when enhanced navigation occurs.
+        Only a full page refresh will invoke the call, in this example.<br />
+        <br />
+        Alternatively, setting the page's rendermode to InteractiveServer will also do excecute the reload of the DOM, 
+        triggering the import of the external module.
+    </li>
+</ul>
+
+@* <script src="/js/myModuleDemo.js"></script> *@
+
+<script type="module">
+    import { myJsModuleDemo } from "/js/myModuleDemo.js";
+
+    myJsModuleDemo("hello world");
+</script>
+
+
+
+@code {
+
+}

@@ -1,0 +1,82 @@
+﻿@page "/demo07/demo-jsInterop"
+
+@inject IJSRuntime _jsRuntime
+
+@* NOTE: If this Page is in the CLIENT Project, it does not need the rendermode to be defined! *@
+@rendermode InteractiveServer
+
+<h3>JavaScript Interop example</h3>
+
+<button @onclick="AlertDemo">
+    Click for JS Alert
+</button>
+
+<hr />
+
+<button @onclick="AnotherDemo">
+    Click to call JS function
+</button>
+
+<div class="mt-2 alert alert-light" id="message">
+    Some message
+</div>
+
+<hr />
+
+<button @onclick="DifferentDemo">
+    Click to call JS function with parameter and return value
+</button>
+
+<p class="mt-2">Author: @authorName</p>
+
+<script>
+
+    function DoSomethingInJS()
+    {
+        document.getElementById('message').innerHTML = "Message changed by JavaScript";
+    }
+
+    function ReturnValueFromJS(name)
+    {
+        return name.toUpperCase();
+    }
+
+</script>
+
+
+@code 
+{
+
+    private async void AlertDemo()
+    {
+        await _jsRuntime.InvokeVoidAsync(
+            identifier: "window.alert",                 // "alert"
+            args: "Hello world from Blazor!"
+        );
+    }
+
+
+    private async void AnotherDemo()
+    {
+        await _jsRuntime.InvokeVoidAsync(identifier: "DoSomethingInJS");
+    }
+
+
+    string authorName = "Manoj Kumar Sharma";
+
+    private async void DifferentDemo()
+    {
+        var author = authorName;
+        authorName = "wait for it...";
+
+        var returnedValueFromTask = await _jsRuntime.InvokeAsync<string>(
+            identifier: "ReturnValueFromJS",
+            args: [ author ] );
+
+        // System.Threading.Thread.Sleep( 1000 );      // some async time consuming process.
+
+        authorName = returnedValueFromTask;
+        StateHasChanged();                      // Check out what happens if this line was commented.
+    }
+
+}

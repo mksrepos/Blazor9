@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@inject IHostEnvironment _hostEnvironment
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -15,7 +17,7 @@
             @* <Demo03BindingMenuItems /> *@
 
             @* for understanding Routing Concepts and for Custom Middleware *@
-            @* <Demo04MiscMenuItems /> *@
+            <Demo04MiscMenuItems />
 
             @* <Demo05RouteParameterMenuItems /> *@
 
@@ -31,6 +33,7 @@
 
             @* <Demo07EditFormMenuItems /> *@
 
+            @* <Demo08JSInteropMenuItems /> *@
 
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
@@ -49,7 +52,6 @@
 
 
 @* This is for the "data-permanent" attribute demo, part of the Demo06NavigationDemos *@
-
 <script>
     let myDivContainer = document.getElementById('myDiv');
     if(myDivContainer !== null)

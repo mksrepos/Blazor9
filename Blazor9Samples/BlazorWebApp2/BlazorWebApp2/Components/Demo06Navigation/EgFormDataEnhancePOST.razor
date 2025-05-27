@@ -3,6 +3,8 @@
 @using BlazorWebApp2.ViewModels
 @inject BlazorWebApp2.Services.BogusGenerators.BogusProductService _bogusProductService
 
+@rendermode InteractiveServer
+
 <h3>Form data-enhance Demo - with HTTP POST</h3>
 
 
@@ -92,6 +94,16 @@ else
         {
             filteredEntries = !string.IsNullOrEmpty(Query)
                 ? entries.Where(e => e.ProductName.Contains(Query, StringComparison.OrdinalIgnoreCase)).ToList()
+                : entries;
+        }
+    }
+
+    private void OnSearch()
+    {
+        if ( entries is not null )
+        {
+            filteredEntries = !string.IsNullOrEmpty( Query )
+                ? entries.Where( e => e.ProductName.Contains( Query, StringComparison.OrdinalIgnoreCase ) ).ToList()
                 : entries;
         }
     }

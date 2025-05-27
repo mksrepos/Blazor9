@@ -1,0 +1,64 @@
+﻿@page "/demo07/demo-jsModule"
+
+@implements IAsyncDisposable 
+
+@inject IJSRuntime _jsRuntime
+
+@rendermode InteractiveServer
+
+<h3>JavaScript Module Example</h3>
+
+<p>
+    JavaScript Modules provide isolation levels to its members.  
+    This example demonstrates how Blazor can interact with JavaScript Modules.
+</p>
+<p>
+    Also, check out if the underlying javascript code encounters an error.  
+    (like instead of calling "alert", I misspelt it as "alt")
+</p>
+
+<button @onclick="OnClick">
+    Show Alert from JS Module
+</button>
+
+
+@code {
+
+    // to hold the object reference of the imported JavaScript Module
+    private IJSObjectReference? jsModule;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/myModuleDemo.js");
+
+        // for Razor Class Library Projects, the path should be like this:
+        // jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/_content/BlazorApp1/js/myModuleDemo.js");
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+
+    private async void OnClick()
+    {
+        if (jsModule is not null)
+        {
+            await jsModule.InvokeVoidAsync("myJsModuleDemo", "Hello JS Module Demo from Blazor!");
+        }
+    }
+
+
+    #region IAsyncDisposable members
+
+    public async ValueTask DisposeAsync()
+    {
+        // Clean up code here
+        if (jsModule is not null)
+        {
+            await jsModule.DisposeAsync();
+        }
+    }
+
+    #endregion
+
+}

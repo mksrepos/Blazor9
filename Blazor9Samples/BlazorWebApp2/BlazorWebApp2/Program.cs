@@ -37,6 +37,10 @@ builder.Services.AddTransient<BlazorWebApp2.Services.BogusGenerators.BogusPerson
 // Register the Services needed to enable ASP.NET Controllers and Web API Controllers
 builder.Services.AddControllers();
 
+// Register the HttpClient in the DI Services container (for blazor components to be able to call API endpoints)
+// (for example in Demo04Misc/Eg03ApiCall.razor)
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 
