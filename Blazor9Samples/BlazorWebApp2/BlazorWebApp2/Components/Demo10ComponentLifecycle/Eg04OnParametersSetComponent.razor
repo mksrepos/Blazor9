@@ -1,0 +1,29 @@
+﻿
+<div class="alert alert-secondary p-5 m-5">
+    <h4>Example of the CascadingParameter</h4>
+
+    <p>CascadingParameter (Name = "Author"): <b>@Something</b></p>
+
+    <p class="fw-bold fst-italic">@statusMessage</p>
+</div>
+
+
+@code {
+
+    private int counter = 0;
+    private string statusMessage = "parameters have not yet been set!";
+
+    [CascadingParameter(Name = "Author")]
+    string? Something { get; set; }
+
+
+    protected override void OnParametersSet ()
+    {
+        // TODO: validate the two paramerters if needed.
+        // TODO: coerce the value assigned to the parameter if it is not correct.
+
+        counter++;
+        statusMessage = $"Parameters have been validated and set successfully {counter} times";
+    }
+
+}

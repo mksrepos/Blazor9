@@ -1,0 +1,34 @@
+﻿@page "/demo09/error-boundary"
+
+@rendermode InteractiveServer
+
+<h3>Custom Error Boundary Handler</h3>
+
+<hr />
+
+<Eg04MyErrorBoundaryComponent @ref="errorBoundary">
+    <ChildContent>
+        @* <EgThrowErrorComponent /> *@
+        <Eg04ThrowErrorComponent />
+    </ChildContent>
+    <ErrorContent>
+        <div class="blazor-error-boundary">
+            <h3>Oops! An unknown error occurred</h3>
+            <p><b>Message:</b> @context.Message</p>
+            <p><b>Type:</b> @context.GetType()</p>
+            <br />
+            <p>Check out the Browser Console to see details of the error.</p>
+            <br />
+            <button class="btn btn-warning" @onclick="() => errorBoundary?.Recover()">
+                Click to Report and Recover
+            </button>
+        </div>
+    </ErrorContent>
+</Eg04MyErrorBoundaryComponent>
+
+
+@code {
+
+    Eg04MyErrorBoundaryComponent? errorBoundary;
+
+}

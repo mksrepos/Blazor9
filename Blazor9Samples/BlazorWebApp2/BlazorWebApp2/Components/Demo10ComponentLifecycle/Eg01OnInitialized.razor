@@ -1,0 +1,36 @@
+﻿@page "/demo10/demo-oninitialized"
+
+<h3>Demo of OnInitialized</h3>
+
+<p class-"fw-bold">@statusMessage</p>
+
+@code {
+
+    private string statusMessage = "Initializing page";
+
+
+    /// <summary>
+    ///     OnInitialized() is called when the component is first constructed and BEFORE IT IS RENDERED.
+    ///      It is a good place to perform one-time initialization tasks, such as fetching data 
+    ///      or setting up subscriptions to data-bound objects.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        System.Threading.Thread.Sleep( 3000 );
+        statusMessage = "Component Initialized successfully!";
+
+        base.OnInitialized();
+    }
+
+
+    /// <summary>
+    ///     OnInitializedAsync() is the asynchronous version of OnInitialized() method.
+    /// </summary>
+    /// <returns>the Task object</returns>
+    protected override Task OnInitializedAsync()
+    {
+
+        return base.OnInitializedAsync();
+    }
+
+}

@@ -1,0 +1,20 @@
+﻿@page "/demo10/demo-onparameterset-eg1"
+
+@rendermode InteractiveServer
+
+<h3>Demo of OnParametersSet ( at Component level on [Parameter] )</h3>
+
+<Eg02ComponentWithParameter Message2="@message2" />
+
+<button @onclick="OnClick">Change Message2</button>
+
+@code {
+
+    private string message2 = "hello world";
+
+    private void OnClick()
+    {
+        message2 = "different world";
+    }
+
+}

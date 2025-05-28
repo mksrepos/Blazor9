@@ -1,0 +1,14 @@
+﻿<h3>A component that throws an exception</h3>
+
+<button class="btn btn-danger" @onclick="OnClick">
+    Click to throw an exception
+</button>
+
+
+@code {
+
+    void OnClick()
+    {
+        throw new ApplicationException("Test exception thrown by the Blazor Page");
+    }
+}

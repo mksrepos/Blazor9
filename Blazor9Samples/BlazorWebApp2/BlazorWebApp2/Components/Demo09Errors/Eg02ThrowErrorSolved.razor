@@ -1,0 +1,39 @@
+﻿@page "/demo09/throw-error-solved"
+
+@rendermode InteractiveServer
+
+<h3>Example Throw Error - Solved</h3>
+
+<p>The component that throws a runtime exception escalates it up the ancestor tree to the <b>ErrorBoundary</b> element.</p>
+
+<p>So, placing the @@Body in the <b>MainLayout</b> inside the <b>ErrorBoundary</b> would make it behave like a Global Error Handler!</p>
+
+<hr />
+
+<ErrorBoundary>
+    <ChildContent>
+        <EgThrowErrorComponent />
+    </ChildContent>
+    <ErrorContent>
+        <div class="blazor-error-boundary">
+            <h3>Oops! An unknown error occurred</h3>
+            <p><b>Message:</b> @context.Message</p>
+            <p><b>Type:</b> @context.GetType()</p>
+        </div>
+    </ErrorContent>
+@*
+    OR LIKE THIS:
+    <ErrorContent Context="exp">
+        <div class="blazor-error-boundary">
+            <h3>Oops! An unknown error occurred</h3>
+            <p><b>Message:</b> @exp.Message</p>
+            <p><b>Type:</b> @exp.GetType()</p>
+        </div>
+    </ErrorContent>
+ *@
+</ErrorBoundary>
+
+
+@code {
+
+}

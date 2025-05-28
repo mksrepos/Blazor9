@@ -1,0 +1,29 @@
+﻿@page "/demo10/demo-onparameterset-eg3"
+
+@rendermode InteractiveServer
+
+<h3>Demo of OnParametersSet ( [CascadingParameter] in Component )</h3>
+
+<h3>Example of CascadingValue</h3>
+
+<p>
+    Identify CascadingValue parameter by Name, and specify the name of the CascadingValue parameter in the Component.
+</p>
+
+<CascadingValue Value="Author" Name="Author">
+    <Eg04OnParametersSetComponent></Eg04OnParametersSetComponent>
+</CascadingValue>
+
+<button @onclick="OnClickHandler">Change Author</button>
+
+@code {
+
+    string Author = "Manoj Kumar Sharma";
+
+
+    private void OnClickHandler()
+    {
+        Author = "Microsoft India";
+    }
+
+}

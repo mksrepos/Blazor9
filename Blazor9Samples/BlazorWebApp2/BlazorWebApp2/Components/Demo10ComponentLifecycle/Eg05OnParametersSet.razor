@@ -1,0 +1,35 @@
+﻿@page "/demo10/demo-onparameterset-eg3/{ProductId:int}"
+
+<h3>Demo of OnParametersSet ( on RouteParameter )</h3>
+
+<p>ProductId is defined as part of the Page Route.</p>
+
+<p>
+    NOTE: Route parameters are always string by default.
+</p>
+
+<p>Received: @ProductId</p>
+
+
+@code {
+
+    [Parameter]
+    public int ProductId { get; set; }
+
+
+    protected override void OnParametersSet()
+    {
+        // TODO: Validate
+
+        // TODO: Coerce
+        if (ProductId == default || ProductId < 0 )
+        {
+            // No ProductId was supplied in the URL (Default value applied), 
+            // Or if ProductId is an invalid negative value, I am setting a coerced value.
+            ProductId = -1;
+        }
+
+        base.OnParametersSet();
+    }
+
+}

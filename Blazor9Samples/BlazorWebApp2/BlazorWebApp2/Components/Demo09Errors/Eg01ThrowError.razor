@@ -1,0 +1,30 @@
+﻿@page "/demo09/throw-error"
+
+@rendermode InteractiveServer
+
+<h3>Example Throw Error</h3>
+
+<button class="btn btn-danger" @onclick="OnClick">
+    Click to throw an exception
+</button>
+
+<p>
+    Check out the Browser Developer Tools > Console for the Exception message.
+</p>
+<p>
+    To see details of the error, turn on detailed exceptions by setting <b>"DetailedErrors": true</b> 
+    in appSettings.Development.json file.
+</p>
+<p>
+    or set "CircuitOptions.DetailedErrors" in Program.cs.
+</p>
+
+
+@code {
+
+    void OnClick()
+    {
+        throw new ApplicationException( "Test exception thrown by the Blazor Page" );
+    }
+
+}

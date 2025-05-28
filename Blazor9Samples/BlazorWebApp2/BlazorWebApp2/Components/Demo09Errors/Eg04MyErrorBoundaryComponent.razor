@@ -1,0 +1,57 @@
+﻿@inherits ErrorBoundary
+
+@using System.Text
+
+@inject ILogger<Eg04MyErrorBoundaryComponent> _logger
+@inject IJSRuntime _jsRuntime
+@inject IHttpContextAccessor _httpContextAccessor
+
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else if (ErrorContent is not null)
+{
+    @ErrorContent(CurrentException)
+}
+
+
+@code {
+
+    // Remember, this is a Component-Level LifeCycle Method.
+    protected override async Task OnErrorAsync( Exception ex )
+    {
+        _logger.LogError(ex, "Sorry😈! Something's gone wrong!");
+
+        // TODO: Log the exception into a logging service or database or email.
+
+        var requestId 
+            = System.Diagnostics.Activity.Current?.Id 
+            ?? _httpContextAccessor.HttpContext?.TraceIdentifier;
+
+        StringBuilder sb = new();
+        sb.Append( "Something went wrong" );
+        sb.AppendFormat( "\n\t Processing Request ID: {0}", requestId );
+
+        Exception? exp = ex;            // we need a nullable exception to loop through the inner exceptions
+        while (exp != null)
+        {
+            sb.AppendFormat("\n\t Message: {0}", ex.Message);
+            sb.AppendFormat("\n\t Type: {0}", ex.GetType());
+            sb.AppendFormat("\n\t Source: {0}", ex.Source);
+            sb.AppendFormat("\n\t TargetSite: {0}", ex.TargetSite);
+            if(ex.InnerException != null)
+            {
+                sb.Append("\n-------------------------------------------");
+            }
+            exp = exp.InnerException;
+        }
+
+        // Log the error into the Browser Console using JS InterOp
+        await _jsRuntime.InvokeVoidAsync("console.error", sb.ToString());
+
+        return;     // If the method of not async, then "return Task.CompletedTask;"
+    }
+
+}

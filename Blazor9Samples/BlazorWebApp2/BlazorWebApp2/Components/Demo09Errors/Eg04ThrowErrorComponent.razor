@@ -1,0 +1,28 @@
+﻿
+<div class="alert border">
+
+    <h3>A component that throws an exception</h3>
+
+    <p>Counter: @Counter</p>
+
+    <button class="btn btn-danger" @onclick="OnClick">
+        Click to throw an exception when Counter > 4
+    </button>
+
+</div>
+
+
+@code {
+
+    private int Counter = 0;
+
+    void OnClick()
+    {
+        Counter++;
+
+        if ( Counter > 4 )
+        {
+            throw new ApplicationException( "Test exception thrown by the Blazor Page" );
+        }
+    }
+}

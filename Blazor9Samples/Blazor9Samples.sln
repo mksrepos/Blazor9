@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_AspNetMiddleware02", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoClassLibWithComments", "DemoClassLibWithComments\DemoClassLibWithComments.csproj", "{F49C3BAF-BCB2-4CB8-AD71-617AAD29ECF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApp3", "BlazorWebApp3\BlazorWebApp3\BlazorWebApp3.csproj", "{F6A9DC01-1E3E-4F73-B9F0-BFD9FFFE577E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApp3.Client", "BlazorWebApp3\BlazorWebApp3.Client\BlazorWebApp3.Client.csproj", "{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{F49C3BAF-BCB2-4CB8-AD71-617AAD29ECF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F49C3BAF-BCB2-4CB8-AD71-617AAD29ECF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F49C3BAF-BCB2-4CB8-AD71-617AAD29ECF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A9DC01-1E3E-4F73-B9F0-BFD9FFFE577E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A9DC01-1E3E-4F73-B9F0-BFD9FFFE577E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A9DC01-1E3E-4F73-B9F0-BFD9FFFE577E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A9DC01-1E3E-4F73-B9F0-BFD9FFFE577E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

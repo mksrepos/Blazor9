@@ -1,0 +1,66 @@
+﻿@page "/demo10/demo-onparameterset-eg2"
+
+@inject NavigationManager _navigationManager;
+
+@rendermode InteractiveServer
+
+
+<h3>Demo of OnParametersSet ( on QueryString at Page on [SupplyParameterFromQuery] )</h3>
+
+<p class="fw-bold">NOTE: The [SupplyParameterFromQuery] attribute can be applied ONLY to Property/Indexer members.</p>
+
+<p class="fw-bold fst-italic">@statusMessage</p>
+<p>Count: @Count</p>
+
+<p>
+    <a class="btn btn-secondary me-2"
+       href="/demo10/demo-onparameterset-eg2?count=5">
+        Test QueryString by Link (with enhanced navigation)
+    </a>
+    <a class="btn btn-secondary"
+       data-enhance-nav="false"
+       href="/demo10/demo-onparameterset-eg2?count=10">
+        Test QueryString by Link (WITHOUT enhanced navigation)
+    </a>
+</p>
+<p>
+    <button class="btn btn-primary me-2" @onclick="OnClickHandler1">
+        Test QueryString by Code (with enhanced navigation)
+    </button>
+    <button class="btn btn-primary" @onclick="OnClickHandler2">
+        Test QueryString by Code (WITHOUT enhanced navigation)
+    </button>
+</p>
+
+
+@code {
+
+    private int counter = 0;
+    private string statusMessage = "parameters have not yet been set!";
+
+
+    [SupplyParameterFromQuery]
+    public int? Count { get; set; }
+
+
+    protected override void OnParametersSet ()
+    {
+        // TODO: validate the two paramerters if needed.
+        // TODO: coerce the value assigned to the parameter if it is not correct.
+
+        counter++;
+        statusMessage = $"Parameters have been validated and set successfully {counter} times";
+    }
+
+
+    private void OnClickHandler1 ()
+    {
+        _navigationManager.NavigateTo( "/demo10/demo-onparameterset-eg2?count=100");
+    }
+
+    private void OnClickHandler2 ()
+    {
+        _navigationManager.NavigateTo( "/demo10/demo-onparameterset-eg2?count=200", forceLoad: true );
+    }
+
+}

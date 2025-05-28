@@ -1,0 +1,49 @@
+﻿@page "/demo09/throw-error-resolved"
+
+@inject ILogger<Eg03ThrowErrorResolved> _logger
+
+@rendermode InteractiveServer
+
+<h3>Example Throw Error - Resolved to Recover</h3>
+
+<p>The component that throws a runtime exception escalates it up the ancestor tree to the <b>ErrorBoundary</b> element.</p>
+
+<p>So, placing the @@Body in the <b>MainLayout</b> inside the <b>ErrorBoundary</b> would make it behave like a <b>Global Error Handler</b>!</p>
+
+<p class="fw-bold">This example shows how to recover from the error caught at the ErrorBoundary.</p>
+
+<hr />
+
+<ErrorBoundary @ref="errorBoundary">
+    <ChildContent>
+        @* <EgThrowErrorComponent /> *@
+        <Eg04ThrowErrorComponent />
+    </ChildContent>
+    <ErrorContent>
+        <div class="blazor-error-boundary">
+            <h3>Oops! An unknown error occurred</h3>
+            <p><b>Message:</b> @context.Message</p>
+            <p><b>Type:</b> @context.GetType()</p>
+            <button class="btn btn-warning" @onclick="LogTheError">Click to Recover</button>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>
+
+
+@code {
+
+    private ErrorBoundary? errorBoundary;
+
+
+    private void LogTheError()
+    {
+        // Log the error 
+        _logger.LogError("An error occurred in the component");
+
+        var exp = errorBoundary?.ErrorContent;
+
+        // Recover from the error
+        errorBoundary?.Recover();
+    }
+
+}

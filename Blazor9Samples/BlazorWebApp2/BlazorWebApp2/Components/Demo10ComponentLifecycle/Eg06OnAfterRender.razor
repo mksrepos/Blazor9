@@ -1,0 +1,68 @@
+﻿@page "/demo10/demo-onafterrender"
+
+
+<h3>Demo of OnAfterRender</h3>
+
+@rendermode InteractiveServer
+
+<div class="alert @cssClass">
+    <p>Status: @statusMessage</p>
+</div>
+
+
+@code {
+
+    private string cssClass = "alert-secondary";
+    private string statusMessage = "STEP 01 of 04.  Not rendered yet";
+
+
+    protected override void OnParametersSet()
+    {
+        System.Threading.Thread.Sleep( 3000 );
+        cssClass = "alert-success";
+        statusMessage = "STEP 02 of 04.  Updated the Parameters";
+
+        StateHasChanged();
+
+        base.OnParametersSet();
+    }
+
+
+    /// <summary>
+    ///     OnAfterRender is called after the component has been rendered 
+    ///     and before the browser actually draws the component to the screen.
+    /// </summary>
+    /// <param name="firstRender">true if first time rendering, false if not.</param>
+    protected override void OnAfterRender ( bool firstRender )
+    {
+
+        if ( firstRender )
+        {
+            System.Threading.Thread.Sleep( 3000 );
+            cssClass = "alert-warning";
+            statusMessage = "STEP 03 of 04. Rendered for the first time";
+        }
+        else
+        {
+            System.Threading.Thread.Sleep( 3000 );
+            cssClass = "alert-info";
+            statusMessage = "STEP 04 of 04.  Rendered after an update";
+        }
+
+        StateHasChanged();
+
+        base.OnAfterRender( firstRender );
+    }
+
+
+    /// <summary>
+    ///     OnAfterRenderAsync() is the asynchronous version of OnAfterRender() method
+    /// </summary>
+    /// <param name="firstRender">true if first time rendering, false if not.</param>
+    /// <returns>the Task object</returns>
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+}

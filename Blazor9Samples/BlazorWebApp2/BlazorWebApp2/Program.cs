@@ -8,9 +8,29 @@ var builder = WebApplication.CreateBuilder(args);
 
 //----- Add services to the container.
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+// The following lines have been commented out for Eg01 of Demo09Errors
+//builder.Services
+//    .AddRazorComponents()                         // adds support for Razor Components
+//    .AddInteractiveServerComponents()             // adds services to support Interactive Server-side Rendering (interactive SSR) components
+//    .AddInteractiveWebAssemblyComponents();       // adds services to support rendering Interactive WebAssembly components
+
+builder.Services
+    .AddRazorComponents()                           // adds support for Razor Components
+    .AddInteractiveServerComponents()               // adds services to support Interactive Server-side Rendering (interactive SSR) components
+        .AddHubOptions( configOptions =>
+        {
+            // Enable detailed errors for user state held in server memory (called Blazor Circuits)
+            // Check out: https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management?view=aspnetcore-9.0&pivots=server#maintain-user-state
+            configOptions.EnableDetailedErrors = builder.Environment.IsDevelopment();
+        } )
+        .AddCircuitOptions( configOptions =>
+        {
+            // Enable detailed errors for user state held in server memory (called Blazor Circuits)
+            // Check out: https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management?view=aspnetcore-9.0&pivots=server#maintain-user-state
+            configOptions.DetailedErrors = builder.Environment.IsDevelopment();
+        } )
+    .AddInteractiveWebAssemblyComponents();          // adds services to support rendering Interactive WebAssembly components
+
 
 // Register the Configuration typed options model into the application services DI container 
 builder.Services
@@ -37,9 +57,16 @@ builder.Services.AddTransient<BlazorWebApp2.Services.BogusGenerators.BogusPerson
 // Register the Services needed to enable ASP.NET Controllers and Web API Controllers
 builder.Services.AddControllers();
 
-// Register the HttpClient in the DI Services container (for blazor components to be able to call API endpoints)
+// Register the HttpClient in the DI Services container
+// for blazor components to be able to call API endpoints.
 // (for example in Demo04Misc/Eg03ApiCall.razor)
 builder.Services.AddHttpClient();
+
+// Register the HttpContextAccessor to the DI Services container (if needed)
+// for blazor components to be able to access the HTTP Context object when needed 
+// (for example in Demo09Errors/Eg04ErrorBoundaryComponent.razor)
+// IMPORTANT NOTE: Should be used only in Blazor projects which support Interactive SSR components.
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -68,9 +95,11 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 
+// NOTE: Adding support for InteractiveServerComponents and InteractiveWebAssemblyComponents 
+//       also enables support for InteractiveAuto mode.
 app.MapRazorComponents<App>()                    // discovers available components & specifies Root Component for the App.
-    .AddInteractiveServerRenderMode()            // configures interactive server-side rendering (interactive SSR) for the app
-    .AddInteractiveWebAssemblyRenderMode()       // configures the Interactive WebAssembly render mode for the app
+    .AddInteractiveServerRenderMode()            // configures Interactive Server-side Rendering (interactive SSR) for the app
+    .AddInteractiveWebAssemblyRenderMode()       // configures Interactive WebAssembly render mode for the app
     .AddAdditionalAssemblies(typeof(BlazorWebApp2.Client._Imports).Assembly);
 
 // Register the Middleware for API calls.

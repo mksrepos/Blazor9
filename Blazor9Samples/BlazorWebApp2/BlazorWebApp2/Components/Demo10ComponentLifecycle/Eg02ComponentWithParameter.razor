@@ -1,0 +1,60 @@
+﻿<div class="alert alert-info">
+
+    <h5>A Component with couple of Parameters</h5>
+
+    <p class="fw-bold">NOTE: The [Parameter] attribute can be applied ONLY to Property/Indexer members.</p>
+
+    @if (!string.IsNullOrEmpty(Message1))
+    {
+        <p>Message #1: @Message1</p>
+    }
+
+    <p>Message #2: @( Message2.ToUpper() )</p>
+
+    <p class="fw-bold fst-italic">@statusMessage</p>
+</div>
+
+
+@code {
+
+    private int counter = 0;
+    private string statusMessage = "parameters have not yet been set!";
+
+    [Parameter]
+    public string Message1 { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Message2 { get; set; } = string.Empty;
+
+
+    /// <summary>
+    ///     OnParametersSet is triggered whenever a component's parameters are updated,
+    ///     either initially OR whenever the component is re-rendered due to parameter changes.
+    /// </summary>
+    protected override void OnParametersSet ()
+    {
+        // TODO: validate the two paramerters if needed.
+        // TODO: coerce the value assigned to the parameter if it is not correct.
+
+        counter++;
+        statusMessage = $"Parameters have been validated and set successfully {counter} times";
+    }
+
+
+    /// <summary>
+    ///     OnParametersSetAsync() is the asynchronous version of OnParametersSet().
+    ///     It is useful for performing async tasks like fetching data when parameters change.
+    /// </summary>
+    /// <returns>the Task object</returns>
+    protected override Task OnParametersSetAsync ()
+    {
+
+        // DO NOT IMPLEMENT CODE IN BOTH FLAVOURS OF THE COMPONENT EVENT 
+        // counter++;
+        // statusMessage = $"Parameters have been validated and set successfully {counter} times";
+
+        return base.OnParametersSetAsync();
+    }
+
+}
+
