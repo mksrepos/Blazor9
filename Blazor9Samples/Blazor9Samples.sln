@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApp3", "BlazorWebA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApp3.Client", "BlazorWebApp3\BlazorWebApp3.Client\BlazorWebApp3.Client.csproj", "{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApp2.Shared", "BlazorWebApp2.Shared\BlazorWebApp2.Shared.csproj", "{E8536613-A5BC-4D76-97C9-BD03D5F21C43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_Destructor_FW", "Demo_Destructor_FW\Demo_Destructor_FW.csproj", "{3261BC0B-3D84-4A00-9F60-E865D4745369}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +97,14 @@ Global
 		{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDD4EC4E-97D0-4EC3-98F2-6DE860D20CCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8536613-A5BC-4D76-97C9-BD03D5F21C43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8536613-A5BC-4D76-97C9-BD03D5F21C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8536613-A5BC-4D76-97C9-BD03D5F21C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8536613-A5BC-4D76-97C9-BD03D5F21C43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3261BC0B-3D84-4A00-9F60-E865D4745369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3261BC0B-3D84-4A00-9F60-E865D4745369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3261BC0B-3D84-4A00-9F60-E865D4745369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3261BC0B-3D84-4A00-9F60-E865D4745369}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

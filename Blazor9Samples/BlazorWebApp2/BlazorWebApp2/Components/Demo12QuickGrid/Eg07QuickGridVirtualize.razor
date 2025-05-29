@@ -1,0 +1,39 @@
+﻿@page "/demo12/quickgrid-virtualize"
+
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@inject HttpClient Http
+
+
+
+<h3>Example of QuickGrid with Virtualization</h3>
+
+<b>NOTE:</b>
+<ul>
+    <li>
+        This example demonstrates how Virtualization can be used to handle large data sets to provide
+        a continuous scrolling parallax user experience.
+    </li>
+    <li>
+        Enabling virtualization is just a matter of passing <b>Virtualize="true"</b>, 
+        but for it to work properly and reliably, ensure that every row renders with the same known height
+        to give a good user experience.
+    </li>
+    <li>
+        This example also demonstrates how HTTPClient can be used to fetch data from a REST API.
+        This example is using the public 
+        <a href="https://open.fda.gov/apis/food/enforcement/" target="_blank">OpenFDA Food Enforcement database</a>.
+    </li>
+</ul>
+
+<hr />
+
+<p><b>
+    Check out the <b>REMOTE DATA</b>
+    <a href="https://aspnet.github.io/quickgridsamples/datasources" target="_blank">QuickGrid sample</a>.
+</b></p>
+
+@code {
+
+
+}

@@ -2,9 +2,17 @@
 
 @implements IDisposable
 
+@inject ILogger<Eg07Dispose> _logger;
+
+@rendermode InteractiveServer
+
 <h3>Demo of How to implement the Dispose method using Dispose Pattern.</h3>
 
-<p class-"fw-bold">@statusMessage</p>
+<p>@statusMessage</p>
+
+<p>@counter</p>
+
+<input type="text" @bind-value="counter" />
 
 @code {
 
@@ -15,39 +23,47 @@
 
     protected override void OnInitialized ()
     {
-        timer = new System.Timers.Timer( interval: 1000 );
+        timer = new System.Timers.Timer( interval: 2000 );
         timer.Elapsed += OnTimerTick;
         timer.Start();
 
         statusMessage = "Started counter!";        
+        _logger.LogInformation( "Timer object has been initialized!" );
     }
 
     private void OnTimerTick ( object? sender, System.Timers.ElapsedEventArgs e )
     {
         // Perform actions on timer tick
         statusMessage = $"{++counter}";
+
+        _logger.LogInformation( "OnTimerTick called {counter}", counter );
+
+        StateHasChanged();
     }
 
 
     #region IDisposable members implementing the Dispose Pattern
 
-    private bool disposedValue;                 // flag to check if aggregated objects have been disposed
+    // (DEFAULT name is DisposedValue)
+    private bool isDisposed;           // flag to check if aggregated objects have been disposed 
 
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!isDisposed)
         {
             if (disposing && timer is not null)
             {
                 timer.Stop();
                 timer.Dispose();
+
+                _logger.LogInformation( "Timer object has now been disposed!" );
             }
 
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer
             // TODO: set large fields to null
 
-            disposedValue = true;
+            isDisposed = true;
         }
     }
 

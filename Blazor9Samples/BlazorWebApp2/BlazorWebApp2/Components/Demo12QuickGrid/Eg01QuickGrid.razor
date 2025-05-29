@@ -1,0 +1,32 @@
+﻿@page "/demo12/quickgrid"
+
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using BlazorWebApp2.ViewModels
+
+@inject BlazorWebApp2.Services.BogusGenerators.BogusPersonService _bogusPersonService
+
+<h3>Example QuickGrid</h3>
+
+
+<p>Needs Nuget Library: <b>Microsoft.AspNetCore.Components.QuickGrid</b></p>
+
+<QuickGrid Items="@entries" Class="table table-striped table-hover">
+    <PropertyColumn Title="Id" Property="@(e => e.Id)" />
+    <PropertyColumn Title="First Name" Property="@(e => e.FirstName)" />
+    <PropertyColumn Title="Last Name" Property="@(e => e.LastName)" />
+    <PropertyColumn Title="City" Property="@(e => e.City)" />
+    <PropertyColumn Title="State" Property="@(e => e.State)" />
+    <PropertyColumn Title="Country" Property="@(e => e.Country)" />
+    <PropertyColumn Title="Province / ZipCode" Property="@(e => e.ProvinceZipCode)" />
+</QuickGrid>
+
+@code {
+
+    private IQueryable<PersonViewModel>? entries = null;
+
+    protected override void OnInitialized()
+    {
+        entries = _bogusPersonService.GeneratePeople(50).AsQueryable();
+    }
+
+}

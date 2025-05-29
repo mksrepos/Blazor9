@@ -1,0 +1,99 @@
+﻿@page "/demo12/quickgrid-paginated-pagesize"
+
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using BlazorWebApp2.ViewModels
+
+@inject BlazorWebApp2.Services.BogusGenerators.BogusPersonService _bogusPersonService
+
+@rendermode InteractiveServer
+
+<h3>Example QuickGrid - Sortable</h3>
+
+<p>Needs Nuget Library: <b>Microsoft.AspNetCore.Components.QuickGrid</b></p>
+
+<ul>
+    <li>FirstName, and LastName are sortable</li>
+    <li>City, State, Country uses a TemplateColumn</li>
+    <li>Filterable on the City, State, Country Template column</li>
+    <li>Styled</li>
+    <li>Paginated</li>
+    <li>With Page Size Chooser</li>
+</ul>
+
+
+<style>
+    /* Stop the last page from collapsing to the number of rows on it */
+    .myTable tr {
+        height: 2.8rem;
+    }
+
+    /* Magnifying glass */
+    .myTable .myFilter .col-options-button {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /> </svg>');
+    }
+
+    .myTable thead th {
+        background-color: #cff4fc;
+        color: #000;
+        border-bottom: 2px solid #000;
+    }
+
+    .page-size-chooser {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+        .page-size-chooser select {
+            margin: 0 1rem;
+            padding: 0.25rem 0.5rem;
+        }
+</style>
+
+
+<div class="page-size-chooser">
+    Items per page:
+    <select @bind="@paginationState.ItemsPerPage">
+        <option>5</option>
+        <option>10</option>
+        <option>20</option>
+        <option>50</option>
+    </select>
+</div>
+
+<QuickGrid Items="@filteredEntries" Pagination="@paginationState"
+           Class="table table-striped table-hover myTable">
+    <PropertyColumn Title="First Name" Property="@(e => e.FirstName)" Class="align-middle"
+                    Sortable="true" />
+    <PropertyColumn Title="Last Name" Property="@(e => e.LastName)" Class="align-middle"
+                    Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
+    <TemplateColumn Title="City, State, Country" Class="myFilter align-middle">
+        <ColumnOptions>
+            <div class="search-box">
+                <input type="search" autofocus @bind="@addressFilter" @bind:event="oninput" />
+            </div>
+        </ColumnOptions>
+        <ChildContent>
+            @context.City, @context.State, @context.Country
+        </ChildContent>
+    </TemplateColumn>
+    <PropertyColumn Title="Province / ZipCode" Property="@(e => e.ProvinceZipCode)" Class="align-middle" />
+</QuickGrid>
+<Paginator State="@paginationState" />
+
+@code {
+    private PaginationState paginationState = new() { ItemsPerPage = 5 };
+    private IQueryable<PersonViewModel>? entries = null;
+    private IQueryable<PersonViewModel>? filteredEntries
+        => entries?.Where(e => e.City.Contains(addressFilter, StringComparison.OrdinalIgnoreCase)
+            || e.State.Contains(addressFilter, StringComparison.OrdinalIgnoreCase)
+            || e.Country.Contains(addressFilter, StringComparison.OrdinalIgnoreCase));
+
+    private string addressFilter = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        entries = _bogusPersonService.GeneratePeople(50).AsQueryable();
+    }
+
+}

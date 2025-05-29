@@ -19,7 +19,7 @@ else if (ErrorContent is not null)
 
 @code {
 
-    // Remember, this is a Component-Level LifeCycle Method.
+    // Remember, this is a Component-Level LifeCycle Method for ErrorBoundary
     protected override async Task OnErrorAsync( Exception ex )
     {
         _logger.LogError(ex, "Sorry😈! Something's gone wrong!");

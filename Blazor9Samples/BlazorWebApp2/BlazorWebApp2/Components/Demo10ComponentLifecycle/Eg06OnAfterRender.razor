@@ -12,9 +12,17 @@
 
 @code {
 
-    private string cssClass = "alert-secondary";
-    private string statusMessage = "STEP 01 of 04.  Not rendered yet";
+    private string cssClass = string.Empty;
+    private string statusMessage = string.Empty;
 
+
+    protected override void OnInitialized()
+    {
+        cssClass = "alert-secondary";
+        statusMessage = "STEP 01 of 04.  Not rendered yet";
+
+        base.OnInitialized();
+    }
 
     protected override void OnParametersSet()
     {
@@ -31,6 +39,9 @@
     /// <summary>
     ///     OnAfterRender is called after the component has been rendered 
     ///     and before the browser actually draws the component to the screen.
+    ///     
+    ///     This is called more than once.
+    ///     If firstRender is FALSE, it means that OnAfterRender is called everytime State has changed.
     /// </summary>
     /// <param name="firstRender">true if first time rendering, false if not.</param>
     protected override void OnAfterRender ( bool firstRender )
@@ -38,12 +49,14 @@
 
         if ( firstRender )
         {
+            // TODO: LOADING DATA....
             System.Threading.Thread.Sleep( 3000 );
             cssClass = "alert-warning";
             statusMessage = "STEP 03 of 04. Rendered for the first time";
         }
         else
         {
+            // TODO: LOADED
             System.Threading.Thread.Sleep( 3000 );
             cssClass = "alert-info";
             statusMessage = "STEP 04 of 04.  Rendered after an update";

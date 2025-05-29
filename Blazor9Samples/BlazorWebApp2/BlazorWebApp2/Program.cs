@@ -1,6 +1,7 @@
 using BlazorWebApp2.Components;
 using BlazorWebApp2.Components.Demo04Misc.Models;
 using BlazorWebApp2.Components.Pages;
+using Microsoft.AspNetCore.Mvc;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +63,16 @@ builder.Services.AddControllers();
 // (for example in Demo04Misc/Eg03ApiCall.razor)
 builder.Services.AddHttpClient();
 
+// While registering the HttpClient, you can also configure the default BaseAddress for the API endpoints.
+string? apiUri = builder.Configuration["ApiUri"];
+if ( apiUri is not null )
+{
+    builder.Services
+        .AddScoped( sp => new HttpClient { BaseAddress = new Uri( apiUri ) } );
+}
+
+
+
 // Register the HttpContextAccessor to the DI Services container (if needed)
 // for blazor components to be able to access the HTTP Context object when needed 
 // (for example in Demo09Errors/Eg04ErrorBoundaryComponent.razor)
@@ -119,6 +130,45 @@ app.Use( async ( context, next ) =>
         context.Response.Redirect( "/Error/404" );
     }
 } );
+
+
+app.MapGet( 
+    "/api/Customers", 
+    ( ) =>
+        Results.Ok( new List<BlazorWebApp2.Shared.Customer>
+        {
+            new BlazorWebApp2.Shared.Customer { Id = 1, Name = "First Customer" }
+            , new() { Id = 2, Name = "Second Customer" }
+            , new() { Id = 3, Name = "Third Customer" }
+            , new() { Id = 4, Name = "Fourth Customer" }
+            , new() { Id = 5, Name = "Fifth Customer" }
+        } )
+);
+
+
+app.MapGet(
+    "/api/Products",
+    ( [FromServices] BlazorWebApp2.Services.BogusGenerators.BogusProductService bogusProductService )
+    => Results.Ok(bogusProductService.GenerateProducts() ) 
+);
+
+
+app.MapGet(
+    "/api/FilteredProducts",
+    ( string filter, 
+      [FromServices] BlazorWebApp2.Services.BogusGenerators.BogusProductService bogusProductService )
+    =>
+    {
+        var products = bogusProductService.GenerateProducts();
+
+        var filteredProducts = products
+            .Where( p => p.ProductName.ToLower().Contains( filter.ToLower() ) )
+            // .OrderBy( c => c.ProductName )
+            .ToList();
+
+        return Results.Ok( filteredProducts );
+    }
+);
 
 
 app.Run();

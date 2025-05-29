@@ -1,0 +1,145 @@
+﻿@page "/demo11/demo-autocomplete"
+
+@using BlazorWebApp2.Shared
+@using System.Text.Json
+@using BlazorWebApp2.Client.DtoModels
+
+@inject HttpClient _httpClient
+@inject ILogger<DemoAutoComplete> _logger;
+
+
+@rendermode InteractiveServer
+
+<h3>TypeAhead / AutoComplete Demo</h3>
+
+<ul>
+    <li>Check out the Minimalistic API configured in Program.cs of the Blazor Web App.</li>
+    <li>NOTE that this page is in the Blazor Client App</li>
+    <li>Check out how the BaseAddress for the HttpClient is configured in Program.cs of the Blazor Web App.</li>
+</ul>
+
+<hr />
+
+<button class="btn btn-primary mb-2" @onclick="OnShowCustomers">Show all Customers from API</button>
+
+@if(customers is not null)
+{
+    <ul class="mb-4">
+    @foreach ( Customer customer in customers )
+    {
+        <li>@customer.Name [ @customer.Id ]</li>
+    }
+    </ul>
+}
+
+
+@code 
+{
+
+    List<Customer>? customers;
+
+    private async void OnShowCustomers()
+    {
+        try
+        {
+            customers = await _httpClient.GetFromJsonAsync<List<Customer>>( 
+                "/api/Customers",
+                new JsonSerializerOptions(JsonSerializerDefaults.Web) );
+        }
+        catch(System.Exception exp)
+        {
+            _logger.LogError( "Error calling /api/Customers: {message}", exp.Message );
+        }
+
+        StateHasChanged();
+    }
+
+}
+
+<hr />
+
+<button class="btn btn-primary mb-2" @onclick="OnShowProducts">Show all Products from API</button>
+
+@if ( products is not null )
+{
+    <ul class="mb-4">
+        @foreach ( ProductsResponseDto product in products )
+        {
+            <li>@product.ProductName [ @product.ProductCategory ]</li>
+        }
+    </ul>
+}
+
+
+@code 
+{
+
+    List<ProductsResponseDto>? products;
+
+
+    private async void OnShowProducts ()
+    {
+        try
+        {
+            products = await _httpClient.GetFromJsonAsync<List<ProductsResponseDto>>(
+                "/api/Products",
+                new JsonSerializerOptions( JsonSerializerDefaults.Web ) );
+        }
+        catch ( System.Exception exp )
+        {
+            _logger.LogError( "Error calling /api/Products: {message}", exp.Message );
+        }
+
+        StateHasChanged();
+    }
+
+}
+
+
+<hr />
+
+<input @bind="filter" @oninput="HandleSearch" class="form-control" />
+
+@if ( filteredProducts is not null )
+{
+    <ul class="mb-4">
+        @foreach ( ProductsResponseDto product in filteredProducts )
+        {
+            <li>@product.ProductName [ @product.ProductCategory ]</li>
+        }
+    </ul>
+}
+
+@code 
+{
+    string? filter;
+    List<ProductsResponseDto>? filteredProducts;
+
+    private async Task HandleSearch ( ChangeEventArgs e )
+    {
+
+        filter = e.Value?.ToString()?.Trim();
+
+        if ( filter?.Length > 0 )
+        {
+            try
+            {
+                filteredProducts = await _httpClient.GetFromJsonAsync<List<ProductsResponseDto>>(
+                    $"/api/FilteredProducts?filter={filter}",
+                    new JsonSerializerOptions( JsonSerializerDefaults.Web ) );
+            }
+            catch ( System.Exception exp )
+            {
+                _logger.LogError( "Error calling /api/Products: {message}", exp.Message );
+            }
+        }
+        else
+        {
+            filteredProducts = null;        // User might have cleared the filter string. So clear items.
+        }
+
+        StateHasChanged();
+        
+    }
+
+}

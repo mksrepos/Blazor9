@@ -1,0 +1,53 @@
+﻿@page "/demo12/quickgrid-filterable"
+
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using BlazorWebApp2.ViewModels
+
+@inject BlazorWebApp2.Services.BogusGenerators.BogusPersonService _bogusPersonService
+
+@rendermode InteractiveServer
+
+<h3>Example QuickGrid - Sortable</h3>
+
+<p>Needs Nuget Library: <b>Microsoft.AspNetCore.Components.QuickGrid</b></p>
+
+<ul>
+    <li>FirstName, and LastName are sortable</li>
+    <li>City, State, Country uses a TemplateColumn</li>
+    <li>Filterable on the City, State, Country Template column</li>
+</ul>
+
+
+<QuickGrid Items="@filteredEntries" Class="table table-striped table-hover">
+    <PropertyColumn Title="First Name" Property="@(e => e.FirstName)" Sortable="true" />
+    <PropertyColumn Title="Last Name" Property="@(e => e.LastName)" 
+                    Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
+    <TemplateColumn Title="City, State, Country">
+        <ColumnOptions>
+            <div class="search-box">
+                <input type="search" autofocus @bind="@addressFilter" @bind:event="oninput" />
+            </div>
+        </ColumnOptions>
+        <ChildContent>
+            @context.City, @context.State, @context.Country
+        </ChildContent>
+    </TemplateColumn>
+    <PropertyColumn Title="Province / ZipCode" Property="@(e => e.ProvinceZipCode)" />
+</QuickGrid>
+
+@code {
+
+    private IQueryable<PersonViewModel>? entries = null;
+    private IQueryable<PersonViewModel>? filteredEntries
+        => entries?.Where(e => e.City.Contains(addressFilter, StringComparison.OrdinalIgnoreCase)
+            || e.State.Contains(addressFilter, StringComparison.OrdinalIgnoreCase)
+            || e.Country.Contains(addressFilter, StringComparison.OrdinalIgnoreCase));
+
+    private string addressFilter = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        entries = _bogusPersonService.GeneratePeople(50).AsQueryable();
+    }
+
+}
