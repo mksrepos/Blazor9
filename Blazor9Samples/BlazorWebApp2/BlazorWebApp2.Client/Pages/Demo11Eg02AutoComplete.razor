@@ -5,7 +5,7 @@
 @using BlazorWebApp2.Client.DtoModels
 
 @inject HttpClient _httpClient
-@inject ILogger<DemoAutoComplete> _logger;
+@inject ILogger<Demo11Eg02AutoComplete> _logger;
 
 
 @rendermode InteractiveServer
@@ -43,7 +43,7 @@
         try
         {
             customers = await _httpClient.GetFromJsonAsync<List<Customer>>( 
-                "/api/Customers",
+                "/api/Customers",               // BaseAddress is set in the Program.cs file of the main project.
                 new JsonSerializerOptions(JsonSerializerDefaults.Web) );
         }
         catch(System.Exception exp)

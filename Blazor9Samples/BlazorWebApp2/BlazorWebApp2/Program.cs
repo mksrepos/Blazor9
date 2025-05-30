@@ -64,6 +64,8 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
 // While registering the HttpClient, you can also configure the default BaseAddress for the API endpoints.
+// This is also applicable to the Blazor Client Project (in this case the BlazorWebApp2.Client project)
+// (for example in Demo11InteractionComponents/Demo11Eg02AutoComplete.razor (in client project)
 string? apiUri = builder.Configuration["ApiUri"];
 if ( apiUri is not null )
 {

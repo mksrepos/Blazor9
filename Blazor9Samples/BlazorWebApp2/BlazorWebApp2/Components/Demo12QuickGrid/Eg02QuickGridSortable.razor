@@ -22,7 +22,14 @@
     <PropertyColumn Title="Last Name" Property="@(e => e.LastName)" 
                     Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
     <TemplateColumn Title="City, State, Country">
-        @context.City, @context.State, @context.Country
+        @if(context.Country == "India")
+        {
+            <b>@context.City, @context.State, @context.Country</b>
+        }
+        else
+        {
+           @( $"{context.City}, {context.State}, {context.Country}" )
+        }
     </TemplateColumn>
     <PropertyColumn Title="Province / ZipCode" Property="@(e => e.ProvinceZipCode)" />
 </QuickGrid>

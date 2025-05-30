@@ -10,9 +10,7 @@
 
 <p>@statusMessage</p>
 
-<p>@counter</p>
-
-<input type="text" @bind-value="counter" />
+<p>Counter: @counter</p>
 
 @code {
 
@@ -21,24 +19,27 @@
 
     private System.Timers.Timer? timer;         // the aggregated object.
 
+
     protected override void OnInitialized ()
     {
-        timer = new System.Timers.Timer( interval: 2000 );
-        timer.Elapsed += OnTimerTick;
+        timer = new System.Timers.Timer( interval: 1000 );
+        timer.Elapsed += OnTimerTickAsync;
         timer.Start();
 
         statusMessage = "Started counter!";        
         _logger.LogInformation( "Timer object has been initialized!" );
     }
 
-    private void OnTimerTick ( object? sender, System.Timers.ElapsedEventArgs e )
+
+    private async void OnTimerTickAsync ( object? sender, System.Timers.ElapsedEventArgs e )
     {
         // Perform actions on timer tick
-        statusMessage = $"{++counter}";
+        statusMessage = $"Counter is now: {++counter}";
 
         _logger.LogInformation( "OnTimerTick called {counter}", counter );
 
-        StateHasChanged();
+        // Since this is a method called as part of a event, the StateHasChanged() method should be Invoked asynchronously.
+        await InvokeAsync( () => StateHasChanged() );
     }
 
 
@@ -48,10 +49,23 @@
     private bool isDisposed;           // flag to check if aggregated objects have been disposed 
 
 
-    protected virtual void Dispose(bool disposing)
+    public void Dispose ()
+    {
+        // NOTE: Do not change this code. 
+        //       Put cleanup code in 'Dispose(bool disposing)' method ONLY.
+        Dispose( disposing: true );
+
+        // Remove the reference to the Destructor, since the Dispose() method has beeen called successfully.
+        // This speeds up the object finalization process.
+        GC.SuppressFinalize( this );
+    }
+
+
+    protected virtual void Dispose ( bool disposing )
     {
         if (!isDisposed)
         {
+            // Clean up the Timer Object
             if (disposing && timer is not null)
             {
                 timer.Stop();
@@ -61,28 +75,23 @@
             }
 
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+
             // TODO: set large fields to null
 
+            // Finally, set the flag to indicate that all the aggregated objects have been cleaned up.
             isDisposed = true;
         }
     }
 
-    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-    // ~Eg07Dispose()
-    // {
-    //     // Put cleanup code in 'Dispose(bool disposing)' method ONLY.
-    //     
-    //     // Enforce that Dispose() is called at least once.
-    //     Dispose(disposing: false);
-    // }
 
-
-    public void Dispose()
+    // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+    ~Eg07Dispose()
     {
-        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        Dispose(disposing: true);
-    
-        GC.SuppressFinalize(this);
+        // NOTE: Put cleanup code in 'Dispose(bool disposing)' method ONLY.
+        
+        // To enforce that Dispose() is called at least once, in case an explicit Dispose() is not called, 
+        // we call it from the Destructor
+        Dispose(disposing: false);
     }
 
     #endregion
