@@ -7,9 +7,7 @@ namespace Demo_Destructor_FW
         public int EmployeeId { get; set; }
 
         // public string? EmployeeName { get; set; }
-        // public string EmployeeName { get; set; } = string.Empty;
-        public string EmployeeName { get; set; }
-
+        public string EmployeeName { get; set; } = string.Empty;
 
         ~Employee ()
         {

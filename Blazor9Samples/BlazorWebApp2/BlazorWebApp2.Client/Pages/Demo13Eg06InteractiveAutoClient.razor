@@ -1,0 +1,46 @@
+﻿@page "/demo13/eg-InteractiveAutoClient"
+
+@rendermode InteractiveAuto
+
+<h3>Demo of InteractiveAuto</h3>
+<h3>in the CLIENT project</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ol type="a">
+    <li class="fw-bold">
+        This page is in the PAGES folder of the Client Project.
+    </li>
+    <li>
+        Initially, the component is rendered as <code class="fw-bold">Static-SSR</code> from the server,
+        but after the .NET runtime and app bundle are downloaded and cached, 
+        it is rendered as <code class="fw-bold">Interactive-SSR</code>.
+    </li>
+</ol>
+
+<hr />
+
+<p class="text-danger">
+    Current Render Mode in Page: @RendererInfo.Name
+</p>
+
+<p>
+    Button in page: <button @onclick="HandleClick">Show message</button>
+</p>
+
+<div>
+    @( (MarkupString) message )
+</div>
+
+
+@code {
+
+    private string message = "";
+
+    void HandleClick ()
+    {
+        message += "Button clicked!<br />";
+    }
+
+}

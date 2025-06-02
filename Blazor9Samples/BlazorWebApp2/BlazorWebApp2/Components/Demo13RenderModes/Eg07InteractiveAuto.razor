@@ -1,0 +1,45 @@
+﻿@page "/demo13/eg-InteractiveAuto"
+
+@rendermode InteractiveAuto
+
+<h3>Demo of InteractiveAuto</h3>
+<h3>in the BLAZOR WEB APP project</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ol type="a">
+    <li class="fw-bold">
+        This page is in the Blazor WebApp Project.
+    </li>
+    <li>
+        The component will always be rendered as <code class="fw-bold">Interactive-SSR</code> 
+        since it is the default behaviour on the Blazor WebApp Project.
+    </li>
+</ol>
+
+<hr />
+
+<p class="text-danger">
+    Current Render Mode in Page: @RendererInfo.Name
+</p>
+
+<p>
+    Button in page: <button @onclick="HandleClick">Show message</button>
+</p>
+
+<div>
+    @( (MarkupString) message )
+</div>
+
+
+@code {
+
+    private string message = "";
+
+    void HandleClick ()
+    {
+        message += "Button clicked!<br />";
+    }
+
+}

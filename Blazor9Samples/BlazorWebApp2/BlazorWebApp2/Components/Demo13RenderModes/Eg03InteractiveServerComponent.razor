@@ -1,0 +1,38 @@
+﻿@page "/demo13/eg-interactiveservercomponent"
+
+@* @rendermode InteractiveServer *@
+
+<PageTitle>Component with Interactive ServerSide RenderMode</PageTitle>
+
+<h3>Example: Interactive ServerSide Render (Interactive-SSR) Mode</h3>
+<h3>at the Component Level</h3>
+
+<p class="text-danger">
+    Current Render Mode in Page: @RendererInfo.Name
+</p>
+
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ol type="a">
+    <li>
+        Since no rendermode is specified at the Page Level, the page uses the default Static ServerSide Render mode.
+    </li>
+    <li>
+        Check out the Browser Diagnostics Tools (Inspect) -> Web Sockets (WS) in the Network tab
+        for "Messages" being dispatched from the Browser.
+    </li>
+    <li>
+        Check out the "Console" when you navigate away to a page which is not in InteractiveServer render mode.
+    </li>
+</ol>
+
+<DemoComponent @rendermode="InteractiveServer" />
+
+@* To disable pre-rendering at the Component Level: *@
+@* <DemoComponent @rendermode="new InteractiveServerRenderMode(prerender: false)" /> *@
+
+
+
+@* <BlazorApp1.RazorClassLib.DemoRenderModeComponent @rendermode="InteractiveServer" /> *@

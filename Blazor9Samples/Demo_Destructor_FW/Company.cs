@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 
 
+// NOTE: 
+//      You need to explicitly add the Nullablity Check Compiler Directive
+//      to enable support for declaring Nullable type members.  Check out the Warning if you comment out this line.
+#nullable enable
+
 namespace Demo_Destructor_FW
 {
 
@@ -23,7 +28,7 @@ namespace Demo_Destructor_FW
         private int newId;
         private List<Employee>? employees;              // aggregated object
 
-        private String _companyName;
+        private string _companyName = string.Empty;
         public string CompanyName
         {
             get

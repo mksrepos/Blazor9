@@ -1,0 +1,56 @@
+﻿@page "/demo13/eg-interactivewasm"
+
+@rendermode InteractiveWebAssembly
+
+<h3>Example: Interactive Web Assembly Mode</h3>
+<h3>at the Page Level</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ol type="a">
+    <li>
+        This is a Page in the "Client" project.
+    </li>
+    <li>
+        If the page is InteractiveWebAssembly, the component CANNOT be InteractiveServer.
+    </li>
+    <li>
+        If the page is InteractiveServer, the component CAN be InteractiveServer or InteractiveWebAssembly.
+    </li>
+</ol>
+
+<hr />
+
+<p class="text-danger">
+    Current Render Mode in Page: @RendererInfo.Name
+</p>
+
+<p>
+    Button in page: <button @onclick="HandleClick">Show message</button>
+</p>
+
+<div>
+    @( (MarkupString) message )
+</div>
+
+@code
+{
+    string message = "";
+
+    void HandleClick ()
+    {
+        message += "Button clicked!<br />";
+    }
+
+}
+
+
+@*  NOTE: 
+        See what happens when you add the component. 
+        The component is in the Client Project!
+        REMEMBER: Components/Pages are registered at the Project Level, irrespective of the Folder Structure/File Name!
+*@
+@* <BlazorWebApp2.Client.Components.Demo13RenderModes.Demo13Eg03DemoComponent @rendermode="InteractiveWebAssembly" />  *@
+@* <Demo13Eg03DemoComponent /> *@
+

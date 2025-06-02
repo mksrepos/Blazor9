@@ -1,5 +1,24 @@
 ﻿using System;
 
+/*
+ * NOTE:
+ *      This is a .NET Framework Project.
+ *      
+ *      I have added the following lines to upgrade the C# Language Version, and enable nullable check:
+ *          <LangVersion>9.0</LangVersion>
+ *          <Nullable>enable</Nullable>
+ *      
+ *      Both above shown lines have been added below the following line in the .CSPROJ file:
+ *          <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+ *          
+ *      You might need to explicitly add the below shown Compiler Directive to enable nullability-check
+ *      (for example, check out Company.cs)
+ *          #nullable enable
+ */
+
+
+#nullable enable
+
 namespace Demo_Destructor_FW
 {
     internal class Program
@@ -19,6 +38,7 @@ namespace Demo_Destructor_FW
 
             ResourceManagedDemo();
         }
+
 
         static void Demo ( string companyname )
         {

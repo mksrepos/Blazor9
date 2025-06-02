@@ -1,0 +1,104 @@
+﻿@page "/demo13/eg-interactiveserver"
+
+@rendermode InteractiveServer
+
+@*
+    NOTE: to setup InteractiveServer rendermode:
+
+            In Program.cs:
+
+            // Add Services to the container.
+            builder.Services.AddRazorComponents()
+                            .AddInteractiveServerComponents()
+
+            ...
+
+            app.MapRazorComponents()
+               .AddInteractiveServerRenderMode();
+*@
+
+
+<PageTitle>Interactive ServerSide Render Mode</PageTitle>
+
+<h3>Example: Interactive ServerSide Render (Interactive-SSR) Mode</h3>
+<h3>at the Page Component</h3>
+
+<p class="text-danger">
+    Current Render Mode in Page: @RendererInfo.Name
+</p>
+
+<p>
+    Button in page: <button @onclick="HandleClick">Show message</button>
+</p>
+
+<div>
+    @( (MarkupString) message )
+</div>
+
+@code
+{
+    private string message = "";
+
+    void HandleClick ()
+    {
+        message += "Button clicked!<br />";
+    }
+
+}
+
+
+<hr />
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ol type="a">
+    <li>The rendermode is now specified in the Page!</li>
+    <li>Checkout the NETWORK tab in Browser Diagnostics Tool to see the WebSocket connections</li>
+    <li>Also see how the dynamically generated HTML content can be rendered.</li>
+</ol>
+
+
+
+<table class="table table-striped border">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Render Location</th>
+            <th>Interactive</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>StaticServer</td>
+            <td>Static server-side rendering (static SSR)</td>
+            <td>Server</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>InteractiveServer</td>
+            <td>Interactive server-side rendering (interactive SSR) using Blazor Server.</td>
+            <td>Server</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>InteractiveWebAssembly</td>
+            <td>Client-side rendering (CSR) using Blazor WebAssembly†.</td>
+            <td>Client</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>InteractiveAuto</td>
+            <td>Interactive SSR using Blazor Server initially and then CSR on subsequent visits after the Blazor bundle is downloaded.</td>
+            <td>Server,<br />then client</td>
+            <td>Yes</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    For more info, check out:<br />
+    (a) <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes" target="_blank">Render Modes</a><br />
+    (b) <a href="https://dotnetlab.eu/blazor-in-net-8-new-render-modes/">New Render Modes in Blazor 8</a>
+</p>
+

@@ -1,0 +1,65 @@
+﻿@page "/demo13/eg-interactivewasmcomponent"
+
+<h3>Example: Interactive Web Assembly Mode</h3>
+<h3>at the Component Level</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ol type="a">
+    <li>
+        This is a Page in the BlazorWebApp project.
+    </li>
+    <li>
+        This demo uses the Component defined in the "Client" project.
+    </li>
+    <li>
+        I have NOT SPECIFIED any rendermode at the Page level.
+    </li>
+    <li>
+        <span class="fw-bold">
+        Notice the difference in the rendermode for the Component in the same project 
+        in comparison to the Component from the "Client" project.
+        </span>
+        <br />
+        <span class="fw-bold text-danger">
+            Initially, the component is rendered as Static content from the server,
+            but on subsequent visits it is rendered from the client after the .NET runtime and app bundle are downloaded and cached.
+        </span>
+    </li>
+    <li class="fw-bold">
+        Check out the CHANGE in the RENDER MODE occuring during the 
+        <span class="fst-italic">OnAfterRender</span> event process,
+        for the "InteractiveWebAssembly" component.
+    </li>
+    <li>
+        Changing the rendermode to "InteractiveAuto" or "InteractiveWebAssembly" for the component in the BlazorWebApp 
+        would switch the mode back to Static-SSR.
+    </li>
+    <li>
+        And setting the rendermode at the Page level to "InteractiveWebAssembly" would also have no impact, as the mode would switch back to Static-SSR.
+    </li>
+    <li>
+        Also check out the CHANGE in RENDER MODE for both the components,
+        when you do a <span class="fw-bold">FULL PAGE REFRESH</span>.
+    </li>
+</ol>
+
+<hr />
+
+<p class="text-danger">
+    Current Render Mode in Page: @RendererInfo.Name
+</p>
+
+<div class="row">
+    <div class="col">
+        <DemoComponent 
+            @rendermode="InteractiveServer" />
+    </div>
+    <div class="col">
+        <BlazorWebApp2.Client.Components.Demo13RenderModes.Demo13Eg03DemoComponent 
+            @rendermode="InteractiveWebAssembly" />
+    </div>
+</div>
+
+

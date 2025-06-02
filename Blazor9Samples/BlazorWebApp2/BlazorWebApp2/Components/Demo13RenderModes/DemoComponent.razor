@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Components;
+
+
+<div class="alert alert-light">
+
+    <h4>Demo Component</h4>
+    <p class="fw-bold font-monospace text-primary">
+        This is in the BlazorWebApp project
+    </p>
+
+    <button class="btn btn-primary" @onclick="OnClick">Click me</button>
+
+    <hr />
+
+    <p class="text-danger">
+        Current Render Mode in Component: @RendererInfo.Name
+    </p>
+
+    <p>@((MarkupString) message)</p>
+
+</div>
+
+
+
+@code {
+
+    string message = string.Empty;
+
+    private void OnClick()
+    {
+        message += "You clicked!" + "<br />";
+    }
+
+}
