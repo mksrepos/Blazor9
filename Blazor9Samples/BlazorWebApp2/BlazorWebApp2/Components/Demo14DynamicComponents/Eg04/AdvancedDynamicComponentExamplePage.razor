@@ -1,0 +1,37 @@
+﻿@page "/demo14/eg04-AdvancedDynamicComponent"
+
+@rendermode InteractiveServer
+
+<h3>Advanced Dynamic Component Example</h3>
+
+<p>
+    <code class="fw-bold">DynamicComponent</code> was introduced as part of ASP.NET CORE 3.0 Razor Components.
+    It allows you to add typed razor components dynamically to help provide intuitive UX.
+</p>
+
+<hr />
+
+<div class="col-6 col-md-8 col-sm-12">
+    <div class="form-group mb-2">
+        <label class="form-label">What type of home do you live in?</label>
+        <select @onchange="OnDropDownChange" class="form-select">
+            <option value="@typeof(DefaultHomeTypeComponent).FullName">Select a value</option>
+            <option value="@typeof(HomeOnRentComponent).FullName">Rent</option>
+            <option value="@typeof(OwnHouseComponent).FullName">Own house</option>
+        </select>
+    </div>
+
+    <DynamicComponent Type="selectedType" />
+</div>
+
+@code {
+
+    Type? selectedType = typeof(DefaultHomeTypeComponent);
+
+
+    public void OnDropDownChange(ChangeEventArgs myArgs)
+    {
+        selectedType = Type.GetType($"{myArgs.Value}");
+    }
+
+}

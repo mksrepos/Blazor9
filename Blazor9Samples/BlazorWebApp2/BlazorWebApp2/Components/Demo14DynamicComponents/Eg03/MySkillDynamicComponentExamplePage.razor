@@ -1,0 +1,46 @@
+﻿@page "/demo14/eg03-DynamicSkillComponent"
+
+@rendermode InteractiveServer
+
+<h3>Example of Dynamic Component with Event and Data</h3>
+
+<p>This is an advanced example showing how to manage State and handle Events for a dynamically loaded Blazor Component.</p>
+
+<hr />
+
+<div class="row">
+    <div class="col-6 border border-secondary p-4">
+        <strong>List of Skills:</strong>
+
+        @foreach(var item in SkillsDictionary)
+        {
+            <MySkillDynamicComponent ComponentId="@item.Key" 
+                                     SkillName="@item.Value" 
+                                     OnSkillDelete="OnSkillDeleteHandler" />
+        }
+
+    </div>
+    <div class="col-6 border border-secondary">
+        <MySkillAddComponent OnSkillAdded="OnSkillAddedHandler" />
+    </div>
+</div>
+
+
+
+@code {
+
+    int counter = 1;
+    Dictionary<string, string> SkillsDictionary = new();
+
+    private void OnSkillAddedHandler(string newSkill)
+    {
+        SkillsDictionary.Add(key: counter.ToString("Component00"), value: newSkill);
+        counter++;
+    }
+
+    private void OnSkillDeleteHandler(string idOfSkillToDelete)
+    {
+        SkillsDictionary.Remove(key: idOfSkillToDelete);
+    }
+
+}

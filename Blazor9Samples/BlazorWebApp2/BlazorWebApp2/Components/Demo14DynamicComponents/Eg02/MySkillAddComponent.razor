@@ -1,0 +1,39 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<div class="p-4">
+    <EditForm Model="@inputModel" FormName="newSkillForm" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <div class="form-group mb-2">
+            <InputText class="form-control" 
+                       @bind-Value="@inputModel.SkillName" />
+            <ValidationMessage For="@(() => inputModel.SkillName)" />
+        </div>
+        <button type="submit" class="btn btn-primary">
+            Add Skill
+        </button>
+    </EditForm>
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback<string> OnSkillAdded { get; set; }
+
+    [SupplyParameterFromForm]
+    InputModel inputModel { get; set; } = new();
+
+    private async Task OnValidSubmit()
+    {
+        await OnSkillAdded.InvokeAsync(inputModel.SkillName!);
+    }
+
+
+    class InputModel
+    {
+        [Display(Name = "Name of Skill")]
+        [Required(ErrorMessage = "cannot be empty.")]
+        [StringLength(maximumLength: 30, MinimumLength = 1, ErrorMessage = "{0} has to contain {2}-{1} characters.")]
+        public string? SkillName { get; set; }
+    }
+
+}

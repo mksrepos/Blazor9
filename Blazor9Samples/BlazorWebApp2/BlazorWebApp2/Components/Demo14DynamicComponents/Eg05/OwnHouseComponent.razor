@@ -1,0 +1,48 @@
+﻿<h4>Own house</h4>
+
+<div class="form-group mt-3">
+    <label class="form-label">Street Address:</label>
+    <input class="form-control" type="text" name="addressLine1" @bind="addressLine1" /><br/>
+    <input class="form-control" type="text" name="addressLine2" @bind="addressLine2" /><br />
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group mt-3">
+            <label class="form-label">City:</label>
+            <input class="form-control" type="text" name="city" @bind="city" />
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group mt-3">
+            <label class="form-label">State:</label>
+            <input class="form-control" type="text" name="state" @bind="state" />
+        </div>
+    </div>
+</div>
+<div class="form-group mt-3">
+    <label class="form-label">Zip Code:</label>
+    <div class="col-2">
+        <input class="form-control" type="text" name="zipCode" @bind="zipCode" />
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public string? addressLine1 { get; set; }
+
+    [Parameter]
+    public string? addressLine2 { get; set; }
+
+    [Parameter]
+    public string? city { get; set; }
+
+    [Parameter]
+    public string? state { get; set; }
+
+
+    [Parameter]
+    public string? zipCode { get; set; }
+
+}

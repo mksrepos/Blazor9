@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApp2.Shared", "Bla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_Destructor_FW", "Demo_Destructor_FW\Demo_Destructor_FW.csproj", "{3261BC0B-3D84-4A00-9F60-E865D4745369}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_LINQ", "Demo_LINQ\Demo_LINQ.csproj", "{CFF083DC-5651-4981-81DE-39BF5EB82BBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{3261BC0B-3D84-4A00-9F60-E865D4745369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3261BC0B-3D84-4A00-9F60-E865D4745369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3261BC0B-3D84-4A00-9F60-E865D4745369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF083DC-5651-4981-81DE-39BF5EB82BBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF083DC-5651-4981-81DE-39BF5EB82BBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF083DC-5651-4981-81DE-39BF5EB82BBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF083DC-5651-4981-81DE-39BF5EB82BBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

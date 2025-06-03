@@ -1,0 +1,50 @@
+﻿@implements IDynamicDemo
+
+@inject ILogger<HomeOnRentComponent> _logger;
+
+<h4>Home on Rent</h4>
+
+<div class="form-group mt-3">
+    <label class="form-label">Home Owner's Name:</label>
+    <input class="form-control" type="text" name="ownerName" @bind="ownerName" />
+</div>
+<div class="form-group mt-3">
+    <label class="form-label">Phone Number of the Home Owner:</label>
+    <input class="form-control" type="text" name="ownerPhone" @bind="ownerPhone" />
+</div>
+<div class="form-group mt-3">
+    <label class="form-label">Full Address of the Property:</label>
+    <textarea class="form-control" name="address" rows="5" @bind="@address" />
+</div>
+
+@code {
+
+    [Parameter]
+    public string? ownerName { get; set; }
+
+    [Parameter]
+    public string? ownerPhone { get; set; }
+
+    [Parameter]
+    public string? address { get; set; }
+
+
+    #region IDynamicDemo members
+
+    public Dictionary<string, string> ReturnUpdatedInfo ()
+    {
+        _logger.LogInformation( "Home on Rent component logged changes!" );
+
+        var retValues = new Dictionary<string, string>
+        {
+            { "ownerName", ownerName ?? string.Empty },
+            { "ownerPhone", ownerPhone ?? string.Empty },
+            { "address", address ?? string.Empty }
+        };
+
+        return retValues;
+    }
+
+    #endregion
+
+}

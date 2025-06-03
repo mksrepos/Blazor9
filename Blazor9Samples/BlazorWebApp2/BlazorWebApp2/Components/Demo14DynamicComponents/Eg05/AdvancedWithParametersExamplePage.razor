@@ -1,0 +1,164 @@
+﻿@page "/demo14/eg05-AdvancedDynamicComponentWithParams"
+
+@rendermode InteractiveServer
+
+<h3>Advanced Dynamic Component Example with Parameters</h3>
+
+<p>
+    This example of <code class="fw-bold">DynamicComponent</code> shows how to pass Parameters 
+    to the dyanically loaded component.
+</p>
+
+<hr />
+
+<div class="col-6 col-md-8 col-sm-12">
+    <div class="form-group mb-2">
+        <label class="form-label">What type of home do you live in?</label>
+        <select @onchange="OnDropDownChange" class="form-select">
+            <option value="@typeof(DefaultHomeTypeComponent).FullName">Select a value</option>
+            <option value="@typeof(HomeOnRentComponent).FullName">Rent</option>
+            <option value="@typeof(OwnHouseComponent).FullName">Own house</option>
+        </select>
+    </div>
+
+    <DynamicComponent Type="selectedComponent!.ComponentType"
+                      Parameters="selectedComponent!.ComponentParameters"
+                      @ref="dynamicComponent" />
+
+    <button class="mt-3 btn btn-primary" @onclick="OnClick">
+        Check this now!
+    </button>
+
+    <p>
+        @((MarkupString)statusMessage)
+    </p>
+</div>
+
+@code {
+
+    // Define a field for reference, to access the dynamically loaded component, if needed.
+    private DynamicComponent? dynamicComponent;
+
+    static private string HomeOnRentOwnerName = "Manoj Kumar Sharma";
+
+
+    private Dictionary<string, MyComponentMetadata> paramsDictionary = new()
+    {
+        {
+            typeof(DefaultHomeTypeComponent).FullName!,
+            new MyComponentMetadata
+            {
+                ComponentType = typeof(DefaultHomeTypeComponent)
+            }
+        },
+        {
+            typeof(HomeOnRentComponent).FullName!,
+            new MyComponentMetadata
+            {
+                ComponentType = typeof(HomeOnRentComponent),
+                ComponentParameters = new()
+                {
+                    { "ownerName", HomeOnRentOwnerName },
+                    { "ownerPhone", "9123456789" },
+                    { "address", "221B, Baker Street, London"},
+                }
+            }
+        },
+        {
+            typeof(OwnHouseComponent).FullName!,
+            new MyComponentMetadata
+            {
+                ComponentType = typeof(OwnHouseComponent),
+                ComponentParameters = new()
+                {
+                    { "addressLine1", "" },
+                    { "addressLine2", "" },
+                    { "city", "" },
+                    { "state", "" },
+                    { "zipCode", "" }
+                }
+            }
+        }
+    };
+
+    private MyComponentMetadata? selectedComponent;
+
+    private string statusMessage = string.Empty;
+
+
+    protected override void OnInitialized()
+    {
+        selectedComponent = paramsDictionary[typeof(DefaultHomeTypeComponent).FullName!];
+
+        base.OnInitialized();
+    }
+
+
+    public void OnDropDownChange( ChangeEventArgs e )
+    {
+        // C# 12 PATTERN MATCHING
+        // string? dropdownValue;
+        // if ( e.Value is string )
+        //     dropdownValue = (string) e.Value;
+
+        if ((e.Value is string dropdownValue) && !String.IsNullOrWhiteSpace(dropdownValue))
+        {
+            selectedComponent = paramsDictionary[$"{e.Value}"];
+        }
+        else
+        {
+            selectedComponent = null;
+        }
+
+        // empty the status message
+        statusMessage = string.Empty;
+    }
+
+
+    public void OnClick()
+    {
+        // To see which component was loaded, create a dynamic component's variable for reference,
+        // and access the same through its Instance object, as shown below:
+        //      var obj = dynamicComponent?.Instance;
+        // So calling a common method defined in each one of the components,
+        // could be done through a common Interface, like this:
+        //      (dynamicComponent?.Instance as ILoggable)?.Log();
+
+        // NOTE: 
+        //   The data that is sent to the Dynamic Component is achieved using ONE-TIME binding.
+        //   So, any changes to the data does not get reflected in the component.
+        //   Similarly, changes to the Parameter in the component are only bound within the scope of the component.
+        //   Changes will not be returned back to the Ancestor.
+        //   To see the updated data, we add an EventCallBack handler to the parameter collection,
+        //   and then raise the event from the component, to update the info in the Ancestor.
+
+        //   In this example, I have handled it using a Dictionary and a common interface method.
+        //   You can see the implementation example in the HomeOnRentComponent.
+
+        if (selectedComponent is not null && selectedComponent.ComponentParameters is not null)
+        {
+            // Check if the selected component is the HomeOnRentComponent
+            if ( selectedComponent.ComponentType!.ToString() == typeof( HomeOnRentComponent ).FullName )
+            {
+                var data = (dynamicComponent?.Instance as IDynamicDemo)?.ReturnUpdatedInfo();
+                if ( data is not null )
+                {
+                    foreach ( var item in data )
+                    {
+                        statusMessage += $"<b>{item.Key}</b> : {item.Value}<br />";
+                    }
+                }
+            }
+            else
+            {
+                // for all other types of components, just display the component parameters
+                foreach ( var item in selectedComponent.ComponentParameters )
+                {
+                    statusMessage += $"<b>{item.Key}</b> : {item.Value}<br />";
+                }
+            }
+        }
+
+    }
+
+}

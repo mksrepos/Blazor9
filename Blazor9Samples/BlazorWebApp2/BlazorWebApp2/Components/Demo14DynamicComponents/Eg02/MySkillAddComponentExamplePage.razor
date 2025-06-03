@@ -1,0 +1,35 @@
+﻿@page "/demo14/eg02-AddSkillComponent"
+
+@rendermode InteractiveServer
+
+<h3>Example of Dynamic Component with Event and Data</h3>
+
+<p>This demo shows how to load a Blazor Component Dynamically, and manage State at the Ancestor level.</p>
+
+<hr />
+
+<div class="row">
+    <div class="col-6 border border-secondary p-4">
+        <strong>List of Skills:</strong>
+        <ol class="list-group">
+            @foreach (var skill in Skills)
+            {
+                <li class="list-group-item"> @skill </li>          
+            }
+        </ol>
+    </div>
+    <div class="col-6 border border-secondary">
+        <MySkillAddComponent OnSkillAdded="OnSkillAddedHandler" />
+    </div>
+</div>
+
+
+@code {
+
+    List<string> Skills = new();
+
+    private void OnSkillAddedHandler(string newSkill)
+    {
+        Skills.Add(newSkill);
+    }
+}

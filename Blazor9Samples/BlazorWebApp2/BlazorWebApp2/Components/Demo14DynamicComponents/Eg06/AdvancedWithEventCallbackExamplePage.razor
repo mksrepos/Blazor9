@@ -1,0 +1,103 @@
+﻿@page "/demo14/eg06-AdvancedDynamicComponentWithEventCallback"
+
+@rendermode InteractiveServer
+
+<h3>Advanced Dynamic Component Example with EventCallback</h3>
+
+<p>
+    This exmaple shows how to implement the <code class="fw-bold">EventCallback handler</code> from a 
+    <code class="fw-bold">DynamicComponent</code>.
+</p>
+<p>
+    To see the updated data, we add an EventCallBack handler to the parameter collection,
+    and then raise the event from the component, to update the info in the Ancestor.
+</p>
+
+<hr />
+
+
+<div class="col-6 col-md-8 col-sm-12">
+    <div class="form-group mb-2">
+        <label class="form-label">What type of home do you live in?</label>
+        <select @onchange="OnDropDownChange" class="form-select">
+            @foreach ( var c in Components )
+            {
+                <option value="@c.Key">@c.Value.Name</option>
+            }
+        </select>
+    </div>
+
+    @if ( selectedComponent is not null )
+    {
+        <DynamicComponent Type="selectedComponent!.Type"
+                          Parameters="selectedComponent!.Parameters" />
+    }
+
+    <p>
+        @((MarkupString)statusMessage)
+    </p>
+
+</div>
+
+
+@code {
+
+    private string statusMessage = string.Empty;
+
+    private string HomeOnRentOwnerName = "Manoj Kumar Sharma";
+
+    // Define a field for reference, to access the dynamically selected component, if needed.
+    private MyComponentMetadata? selectedComponent;
+
+    private Dictionary<string, MyComponentMetadata> Components => new()
+    {
+        [nameof( DefaultHomeTypeComponent )] = new MyComponentMetadata()
+        {
+            Type = typeof( DefaultHomeTypeComponent ),
+            Name = "Select a value",
+            Parameters = {
+                [nameof(DefaultHomeTypeComponent.OnGetData)]
+                    = EventCallback.Factory.Create<MyComponentEventArgs>(this, ShowMessage) }
+        },
+        [nameof( HomeOnRentComponent )] = new MyComponentMetadata()
+        {
+            Type = typeof( HomeOnRentComponent ),
+            Name = "Home on Rent",
+            Parameters = { 
+                ["ownerName"] = HomeOnRentOwnerName,
+                ["ownerPhone"] = "9123456789",
+                [ "address" ] = "221B, Baker Street, London",
+                [nameof(HomeOnRentComponent.OnGetData)]
+                    = EventCallback.Factory.Create<MyComponentEventArgs>(this, ShowMessage) }
+        },
+    };
+
+
+    public void OnDropDownChange( ChangeEventArgs e )
+    {
+        if ((e.Value is string dropdownValue) && !String.IsNullOrWhiteSpace(dropdownValue))
+        {
+            selectedComponent = Components[dropdownValue];
+        }
+        else
+        {
+            selectedComponent = null;
+        }
+
+        // empty the status message
+        statusMessage = string.Empty;
+    }
+
+
+    private void ShowMessage ( MyComponentEventArgs e )
+    {
+        if ( e.Data is not null )
+        {
+            foreach ( var item in e.Data )
+            {
+                statusMessage += $"<b>{item.Key}</b> : {item.Value}<br />";
+            }
+        }
+    }
+
+}
