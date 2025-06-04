@@ -1,0 +1,101 @@
+﻿@page "/demo15/demo-ProtectedSessionStore"
+
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@inject ProtectedSessionStorage ProtectedSessionStore
+@inject NavigationManager NavManager
+
+@rendermode InteractiveServer
+
+<PageTitle>Demo of ProtectedSessionStore</PageTitle>
+
+<h3>Demo of ProtectedSessionStore</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ul>
+    <li>
+        Save and load data within a component using HTML5 objects accessed using the <b>JSRuntime</b>.
+        <ul>
+            <li><code class="fw-bold">ProtectedLocalStorage</code></li>
+            <li><code class="fw-bold">ProtectedSessionStorage</code></li>
+        </ul>
+    </li>
+    <li>
+        <span class="fw-bold">JavaScript interop calls can only be performed during the OnAfterRenderAsync lifecycle method!</span>
+        <br />
+        <code class="fw-bold">localStorage</code> or <code class="fw-bold">sessionStorage</code> 
+        are not available during prerendering. If the component attempts to interact with storage, 
+        an error is generated explaining that JavaScript interop calls cannot be issued because the component 
+        is being prerendered. To solve this, ensure that prerendering the component is disabled:
+        <br />
+        <code class="font-monospace fw-bold bg-info-subtle m-2 p-2">
+            &lt;DemoComponent @@rendermode="new InteractiveServerRenderMode(prerender: false)" /&gt; 
+        </code>
+    </li>
+    <li>
+        Navigate away from the page, OR refresh the page using Full-Reload / Normal Reload to see how this demo works.
+    </li>
+    <li>
+        Also check out what happens if you duplicate the current Browser Tab.
+    </li>
+</ul>
+
+<p>
+    Check out the following for more information:
+    <br />
+    <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management" class="fw-bold">
+        https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management
+    </a>
+</p>
+
+<hr />
+
+<p role="status">Current count: @counter</p>
+
+<div class="mt-2">
+    <button class="btn btn-primary" @onclick="IncrementCount">Increment Counter</button>
+</div>
+
+<div class="mt-2">
+    <button class="btn btn-primary" @onclick="SaveStateAsync">Save State</button>
+    <button class="btn btn-primary" @onclick="RefreshStateAsync">Refresh Page</button>
+</div>
+
+@code {
+
+    private const string KeyForCounterInSessionStore = "count";
+    private int counter = 0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if ( firstRender )
+        {
+            await RefreshStateAsync();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void IncrementCount ()
+    {
+        counter++;
+
+        StateHasChanged();
+    }
+
+    private async Task SaveStateAsync ()
+    {
+        await ProtectedSessionStore.SetAsync( KeyForCounterInSessionStore, counter );
+    }
+
+    private async Task RefreshStateAsync ()
+    {
+        var result = await ProtectedSessionStore.GetAsync<int>( KeyForCounterInSessionStore );
+        counter = result.Success ? result.Value : 0;
+
+        await InvokeAsync( () => StateHasChanged() );
+    }
+
+}

@@ -1,0 +1,42 @@
+﻿@page "/demo15/demo-statechange1"
+
+@rendermode InteractiveServer
+
+<PageTitle>Demo of StateHasChanged - Example 1</PageTitle>
+
+<h3>Demo of StateHasChanged - Example 1</h3>
+
+
+<p>
+    Current count: @counter
+</p>
+
+<p>
+    <button class="btn btn-primary" @onclick="IncrementCount">
+        Click me to Count to 4
+    </button>
+</p>
+
+@code {
+
+    private int counter = 0;
+
+    private async Task IncrementCount ()
+    {
+        counter++;                              // 1
+        // Renders here automatically
+
+        await Task.Delay( 2000 );
+        counter++;                              // 2
+        StateHasChanged();                      // check what happens if you comment out this line.
+
+        await Task.Delay( 2000 );
+        counter++;                              // 3
+        StateHasChanged();
+
+        await Task.Delay( 2000 );
+        counter++;                              // 4
+        // Renders here automatically
+    }
+}
+

@@ -1,0 +1,51 @@
+﻿@page "/demo15/demo-statechange2"
+
+@using System.Timers
+@implements IDisposable
+
+@rendermode InteractiveServer
+
+<PageTitle>Demo of StateHasChanged - Example 2</PageTitle>
+
+<h3>Demo of StateHasChanged - Example 2</h3>
+
+
+<p>
+    This demonstrates <code class="fw-bold">StateHasChanged</code> and  <code class="fw-bold">Timer</code> disposal.
+</p>
+
+<p>
+    Current count: @counter
+</p>
+
+
+@code {
+
+    private int counter = 0;
+    private Timer timer = new( 1000 );
+
+
+    protected override void OnInitialized ()
+    {
+        timer.Elapsed += ( sender, eventArgs ) => OnTimerCallback();
+        timer.Start();
+    }
+
+
+    private void OnTimerCallback ()
+    {
+        _ = InvokeAsync( () =>
+        {
+            counter++;
+            StateHasChanged();
+        } );
+    }
+
+
+    #region IDisposable members
+
+    public void Dispose () => timer.Dispose();
+
+    #endregion
+
+}
