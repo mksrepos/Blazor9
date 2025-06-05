@@ -1,0 +1,57 @@
+﻿@page "/demo16/eg-pageforJsInteropService"
+
+@inject MyRazorClassLib.ExampleJsInterop _exampleJsInterop
+
+@implements IAsyncDisposable
+
+@rendermode InteractiveServer
+
+<PageTitle>Demo 5 ExampleJsInterop Scoped Service</PageTitle>
+
+<h3>Demo of JsInterop Scoped Service from Blazor Class Library</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ul>
+    <li>The <strong>ExampleJsInterop Service</strong> is registered in the Program.cs file as a Scoped Service.</li>
+    <li>It receives the <code class="fw-bold">IJSRuntime</code> object,<br />
+        and imports the <b>JS Module</b> from the Razor Libray<br />
+        during its scoped instantition process.
+    </li>
+    <li>
+        This Blazor Component would need to implement the <code class="fw-bold">IAsyncDisposable</code> interface.
+    </li>
+</ul>
+
+<hr />
+
+<p>Status: @statusMessage</p>
+
+@code {
+
+    string statusMessage = "Not yet initialized";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if ( firstRender )
+        {
+            var retVal = await _exampleJsInterop.Prompt( "hello world from the Razor ClassLib" );
+            statusMessage = retVal;
+
+            await InvokeAsync( () => StateHasChanged() );
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    #region IAsyncDisposable members
+
+    public async ValueTask DisposeAsync ()
+    {
+        await _exampleJsInterop.DisposeAsync();
+    }
+
+    #endregion
+
+}

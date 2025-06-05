@@ -1,0 +1,19 @@
+﻿@page "/demo16/eg-pageforCustomCss"
+
+<PageTitle>Demo of CSS</PageTitle>
+
+<HeadContent>
+    @* <link rel="stylesheet" href="~/app.css" /> *@
+    @* <link rel="stylesheet" type="text/css" href="_content/BlazorWebApp2.RazorClassLib/MyStylesInRazorComponentLib.css" /> *@
+    <link rel="stylesheet" type="text/css" href="_content/MyRazorClassLib/MyStylesInRazorComponentLib.css" />
+</HeadContent>
+
+<h3>Demo of Custom CSS in Razor Class Library</h3>
+
+<div class="myStyle">
+    <MyRazorClassLib.Component1 />
+</div>
+
+@code {
+
+}

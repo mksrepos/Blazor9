@@ -27,18 +27,31 @@
 
     protected override void OnInitialized ()
     {
-        timer.Elapsed += ( sender, eventArgs ) => OnTimerCallback();
+        timer.Elapsed += ( sender, eventArgs ) => OnTimerCallback(sender, eventArgs);
         timer.Start();
     }
 
 
-    private void OnTimerCallback ()
+    private void OnTimerCallback (object? sender, ElapsedEventArgs eventArgs )
     {
         _ = InvokeAsync( () =>
         {
             counter++;
-            StateHasChanged();
         } );
+
+        // _ = InvokeAsync( () =>
+        // {
+        //     counter++;
+        // } );
+
+        // _ = InvokeAsync( () =>
+        // {
+        //     counter++;
+        // } );
+
+        InvokeAsync( () => StateHasChanged() );
+
+        // StateHasChanged();               // will not work!
     }
 
 

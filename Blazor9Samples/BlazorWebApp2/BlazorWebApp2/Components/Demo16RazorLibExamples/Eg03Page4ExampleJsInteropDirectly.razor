@@ -1,0 +1,75 @@
+﻿@page "/demo16/eg-pageforJsInteropDirectly"
+
+@inject IJSRuntime _jsRuntime
+
+@rendermode InteractiveServer
+
+<HeadContent>
+    @* 
+        NOTE: 
+        1. JavaScript files from the Razor Class Library Project DO NOT get loaded 
+           if placed inside the HeadContent component (which is rendered by the HeadOutlet component in App.razor)
+           for some unknown reason.  You can place CSS file references (as shown in the previous example).
+        2. The JS file is loaded after the first-pass of the OnAfterRender() event.
+           So, the function would NOT BE available during the "firstRender"
+    *@
+</HeadContent>
+<script src="_content/MyRazorClassLib/exampleJsFunctions.js"></script>
+
+
+<PageTitle>Demo 3 JS Module</PageTitle>
+
+<h3>Demo of JsInterop using IJSRuntime to call JS function inside JavaScript file in the Razor Class Library</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ul>
+    <li>
+        Notice how this example loads the external JavaScript file from the Razor Class Library Project.
+    </li>
+    <li>
+        And uses the <code class="fw-bold">IJSRuntime</code> to invoke the JavaScript methods in the JS Module.
+    </li>
+</ul>
+
+<hr />
+
+<p>Your Name: @statusMessage</p>
+
+<button class="btn btn-primary mt-2" @onclick="OnClickHandler">Change name?</button>
+
+@code {
+
+    string statusMessage = "Not yet initialized";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if ( firstRender )
+        {
+            // The JS file is loaded after the first-pass of the OnAfterRender() event.
+            // So, the function would NOT BE available during the "firstRender"
+            // var retVal = await _jsRuntime.InvokeAsync<string>( "window.exampleJsFunctions.showPrompt", "Your name?" );
+            
+            var retVal = await _jsRuntime.InvokeAsync<string>( "prompt", "Your name?" );
+            statusMessage = retVal;
+
+            // NOTE: The StateHasChanged() is called asynchronously
+            await InvokeAsync( () => StateHasChanged() );
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+
+    private async void OnClickHandler()
+    {
+        // var retVal = await _jsRuntime.InvokeAsync<string>( 
+        //     "window.exampleJsFunctions.showPrompt", "Change your name?" );
+        var retVal = await _jsRuntime.InvokeAsync<string>(
+            "window.exampleJsFunctions.showPrompt", "Change your name?", statusMessage );
+        statusMessage = retVal;
+        await InvokeAsync( () => StateHasChanged() );
+    }
+
+}

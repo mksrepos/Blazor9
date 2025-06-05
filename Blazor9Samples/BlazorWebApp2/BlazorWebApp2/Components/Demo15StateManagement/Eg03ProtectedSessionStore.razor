@@ -2,10 +2,13 @@
 
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@inject ProtectedSessionStorage ProtectedSessionStore
+@inject ProtectedSessionStorage _protectedSessionStore          // per tab (localized to the current browser tab)
+@* @inject ProtectedLocalStorage _protectedlocalStore              // local to the browser (common for all tabs) *@
 @inject NavigationManager NavManager
 
 @rendermode InteractiveServer
+
+
 
 <PageTitle>Demo of ProtectedSessionStore</PageTitle>
 
@@ -68,6 +71,18 @@
     private const string KeyForCounterInSessionStore = "count";
     private int counter = 0;
 
+    protected override async Task OnInitializedAsync()
+    {
+        // throws an InvalidOperationException: 
+        // "JavaScript interop calls cannot be issued at this time. 
+        //  This is because the component is being statically rendered. 
+        //  When prerendering is enabled, JavaScript interop calls can only be performed 
+        //  during the OnAfterRenderAsync lifecycle method."
+        // -- await RefreshStateAsync();
+
+        await base.OnInitializedAsync();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if ( firstRender )
@@ -87,12 +102,12 @@
 
     private async Task SaveStateAsync ()
     {
-        await ProtectedSessionStore.SetAsync( KeyForCounterInSessionStore, counter );
+        await _protectedSessionStore.SetAsync( KeyForCounterInSessionStore, counter );
     }
 
     private async Task RefreshStateAsync ()
     {
-        var result = await ProtectedSessionStore.GetAsync<int>( KeyForCounterInSessionStore );
+        var result = await _protectedSessionStore.GetAsync<int>( KeyForCounterInSessionStore );
         counter = result.Success ? result.Value : 0;
 
         await InvokeAsync( () => StateHasChanged() );

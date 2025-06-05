@@ -10,7 +10,7 @@
     <main>
         <div class="top-row px-4">
 
-            @* <Demo01ComponentsMenuItems /> *@
+            <Demo01ComponentsMenuItems />
 
             @* <Demo02ParametersMenuItems /> *@
             
@@ -41,13 +41,22 @@
 
             @* <Demo11InteractionComponentsMenuItems /> *@
 
-            <Demo12QuickGridMenuItems />
+            @* <Demo12QuickGridMenuItems /> *@
 
-            <Demo13RenderModesMenuItems />
+            @* <Demo13RenderModesMenuItems /> *@
 
-            <Demo14DynamicComponentsMenuItems />
+            @* <Demo14DynamicComponentsMenuItems /> *@
 
             <Demo15StateManagementMenuItems />
+
+            @*
+                (a) Create a Razor Class Library Project (MyRazorClassLib)
+                    DO NOT Check the "Add Razor Page and Razor View support" option (RECOMMENDATION)
+                (b) Add Project Reference to the Razor Class Library Project
+                (c) Register the Razor Class Library Project Assembly using the "AddAdditionalAssemblies" middleware
+                (d) Register into the DI Container the Scope JSInterop Service (from the Razor Class Library Project)
+            *@
+            <Demo16RazorLibMenuItems />
 
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>

@@ -1,0 +1,49 @@
+﻿@page "/demo16/eg-pageforJsInterop"
+
+@inject IJSRuntime _jsRuntime
+
+@rendermode InteractiveServer
+
+<PageTitle>Demo 4 JsInterop with IAsyncDisposable</PageTitle>
+
+<h3>Demo of JsInterop with IAsyncDisposable using the ExampleJsInterop class in Razor Class Library</h3>
+
+<p class="fw-bold">
+    NOTE:
+</p>
+<ul>
+    <li>
+        This example uses the <code class="fw-bold">IJSRuntime</code> 
+        to invoke methods in the <strong>ExampleJsInterop</strong> class in the Razor Class Library Project.
+    </li>
+</ul>
+
+<hr />
+
+<p>Status: @statusMessage</p>
+
+@code {
+
+    string statusMessage = "Not yet initialized";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if ( firstRender )
+        {
+            // NOTE: I am using the JsInterop object inside a USING BLOCK, 
+            //       as it implements the IDisposableAsync interface!!!
+            //       So, I do not need to implement the IDisposable interface on the Page Component!
+            await using MyRazorClassLib.ExampleJsInterop exampleJsInterop
+                = new MyRazorClassLib.ExampleJsInterop( _jsRuntime );
+
+            var retVal = await exampleJsInterop.Prompt( "Your name?" );
+            statusMessage = retVal;
+
+            // NOTE: The StateHasChanged() is called asynchronously
+            await InvokeAsync( () => StateHasChanged() );
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+}

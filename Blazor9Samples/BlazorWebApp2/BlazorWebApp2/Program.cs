@@ -73,13 +73,20 @@ if ( apiUri is not null )
         .AddScoped( sp => new HttpClient { BaseAddress = new Uri( apiUri ) } );
 }
 
-
-
 // Register the HttpContextAccessor to the DI Services container (if needed)
 // for blazor components to be able to access the HTTP Context object when needed 
 // (for example in Demo09Errors/Eg04ErrorBoundaryComponent.razor)
 // IMPORTANT NOTE: Should be used only in Blazor projects which support Interactive SSR components.
 builder.Services.AddHttpContextAccessor();
+
+// Registering the JS InterOp service from the Razor ClassLib project
+// as part of the Demo16RazorLibExamples
+// NOTE: Remember that IJSRuntime is registered as a Scoped Service.
+//       And since ExampleJsInterop receives the IJSRuntime object, it has to be registered as a Scoped Service only!
+builder.Services
+    .AddScoped<MyRazorClassLib.ExampleJsInterop>();
+
+
 
 var app = builder.Build();
 
@@ -113,7 +120,8 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()                    // discovers available components & specifies Root Component for the App.
     .AddInteractiveServerRenderMode()            // configures Interactive Server-side Rendering (interactive SSR) for the app
     .AddInteractiveWebAssemblyRenderMode()       // configures Interactive WebAssembly render mode for the app
-    .AddAdditionalAssemblies(typeof(BlazorWebApp2.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(BlazorWebApp2.Client._Imports).Assembly)
+    .AddAdditionalAssemblies(typeof(MyRazorClassLib._Imports).Assembly);
 
 // Register the Middleware for API calls.
 app.MapControllers();

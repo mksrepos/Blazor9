@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\MyBlazor9\Blazor9Samples\MyRazorClassLib\MyRazorClassLib.csproj" />
 		<ProjectReference Include="..\..\BlazorWebApp2.Shared\BlazorWebApp2.Shared.csproj" />
 		<ProjectReference Include="..\BlazorWebApp2.Client\BlazorWebApp2.Client.csproj" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
