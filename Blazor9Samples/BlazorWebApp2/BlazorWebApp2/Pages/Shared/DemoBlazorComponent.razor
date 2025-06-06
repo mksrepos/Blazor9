@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Components;
+
+<div class="alert alert-light">
+
+    <h4>Demo Component</h4>
+
+    <p class="fw-bold font-monospace text-primary">
+        This is in the <b>Pages/Shared</b> folder.
+    </p>
+
+    <button class="btn btn-primary" @onclick="OnClick">Click me</button>
+
+    <p class="text-danger">
+        Current Render Mode in Component: @RendererInfo.Name
+    </p>
+
+    <p>Current Count: @Counter</p>
+
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public int Counter { get; set; } = 0;
+
+
+    private void OnClick()
+    {
+        Counter++;
+    }
+
+}

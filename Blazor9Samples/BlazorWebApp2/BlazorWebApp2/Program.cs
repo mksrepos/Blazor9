@@ -58,6 +58,9 @@ builder.Services.AddTransient<BlazorWebApp2.Services.BogusGenerators.BogusPerson
 // Register the Services needed to enable ASP.NET Controllers and Web API Controllers
 builder.Services.AddControllers();
 
+// Register the Services needed to enable ASP.NET Razor Pages (for the Demo17AspNetExamples)
+builder.Services.AddRazorPages();
+
 // Register the HttpClient in the DI Services container
 // for blazor components to be able to call API endpoints.
 // (for example in Demo04Misc/Eg03ApiCall.razor)
@@ -121,10 +124,13 @@ app.MapRazorComponents<App>()                    // discovers available componen
     .AddInteractiveServerRenderMode()            // configures Interactive Server-side Rendering (interactive SSR) for the app
     .AddInteractiveWebAssemblyRenderMode()       // configures Interactive WebAssembly render mode for the app
     .AddAdditionalAssemblies(typeof(BlazorWebApp2.Client._Imports).Assembly)
-    .AddAdditionalAssemblies(typeof(MyRazorClassLib._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(MyRazorClassLib._Imports).Assembly);        // as part of the Demo16RazorLibExamples
 
 // Register the Middleware for API calls.
 app.MapControllers();
+
+// Register support for ASP.NET Razor Pages (for the Demo17AspNetExamples)
+app.MapRazorPages();
 
 
 // Custom Middleware for routing (Part of Demo04Misc examples). 

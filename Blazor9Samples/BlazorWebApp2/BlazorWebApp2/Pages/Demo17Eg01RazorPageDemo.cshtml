@@ -1,0 +1,51 @@
+﻿@page
+@model BlazorWebApp2.Pages.Demo17Eg01RazorPageDemoModel
+
+@{
+    ViewData["Title"] = "Demo of ASP.NET Razor Page";
+}
+
+<h3>Demo of ASP.NET Razor Page in the Blazor Web App Project</h3>
+
+<p class="fw-bold">NOTE:</p>
+<ol>
+    <li>
+        Configure Program.cs to support ASP.NET Razor Pages.
+    </li>
+    <li>
+        Add "Pages" folder and _Layout inside the "Shared" folder
+    </li>
+    <li>
+        Add the needed Blazor’s JS-library support to enable server side Blazor in the <b>Layout</b> file.
+    </li>
+    <li>
+        Add the needed <b>Layout</b>, <b>_ViewImports</b> and <b>_ViewStart</b> files.
+    </li>
+</ol>
+
+<hr />
+
+<div class="border rounded-1 p-4">
+    <form name="DemoForm" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="mb-4 col-6">
+            <label asp-for="Input.Name" class="form-label"></label>
+            <input asp-for="Input.Name" class="form-control"
+                   aria-required="true" autocomplete="name" placeholder="your name" />
+            <span asp-validation-for="Input.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary">
+                Show Greeting
+            </button>
+        </div>
+    </form>
+</div>
+
+@if( !string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="alert alert-success">
+        @Model.StatusMessage
+    </div>
+}
+

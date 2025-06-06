@@ -1,0 +1,61 @@
+﻿@page
+@model BlazorWebApp2.Pages.Demo17Eg02RazorPageWithComponent
+
+@{
+    ViewData["Title"] = "ASP.NET Razor Page with Component";
+}
+
+<h3>ASP.NET Razor Page with Component</h3>
+
+<p class="fw-bold">NOTE:</p>
+<ol>
+    <li>
+        Blazor components are always rendered in Static Server Mode.<br />
+        <span class="fw-bold">They are ALWAYS NON-INTERACTIVE</span>
+    </li>
+</ol>
+
+<hr />
+
+<div class="border rounded-1 p-4">
+    <form name="DemoForm" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="mb-4 col-6">
+            <label asp-for="Input.Name" class="form-label"></label>
+            <input asp-for="Input.Name" class="form-control"
+                   aria-required="true" autocomplete="name" placeholder="your name" />
+            <span asp-validation-for="Input.Name" class="text-danger"></span>
+        </div>
+
+        @*
+            BLAZOR SYNTAX (INSIDE A BLAZOR COMPONENT / PAGE):
+                <BlazorWebApp2.Pages.Shared.DemoBlazorComponent 
+                        @remdermode="InteractiveServer"
+                        Counter="100"/>
+            
+            HTML HELPER SYNTAX (INSIDE A RAZOR PAGE)
+            <component>
+                @( await Html.RenderComponentAsync<BlazorWebApp2.Pages.Shared.DemoBlazorComponent>(RenderMode.Server) )
+            </component>
+        *@
+
+        <@* ASP.NET TAG HELPER SYNTAX (INSIDE A RAZOR PAGE) *@
+        <component type="typeof(BlazorWebApp2.Pages.Shared.DemoBlazorComponent)"
+                   param-Counter="100"
+                   render-mode="ServerPrerendered" />
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary">
+                Show Greeting
+            </button>
+        </div>
+    </form>
+</div>
+
+@if( !string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="alert alert-success">
+        @Model.StatusMessage
+    </div>
+}
+
